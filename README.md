@@ -65,6 +65,10 @@ block into the rectangular n x m board.
    Data structures for controlling tetris blocks(three dimensional arrays represenitng shapes, orientations and speed).
    
 3. Dynamic Memory Management:
+   - Memory is allocated to storing the game data and for storing the high score for the game. We will also be allocating memory to allow the player to save
+load game and load it whenever they want to play the game. To save memory, we will overwrite existing memory to save new data. Furthermore, we will also only 
+store a fixed number of shapes in a predefined array and rotate them during the game, instead of generating and storing a new shape everytime. This is likely 
+to help save memory and manage the data better.
    
 
 4. File input/output (e.g. for loading/saving game status)
