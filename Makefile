@@ -10,7 +10,10 @@ io.o: io.cpp io.h
 main.o: main.cpp io.h 
 	g++ $(FLAGS) -c $<
 
-game: main.o io.o
+game_type.o: game_type.cpp game_type.h
+	g++ $(FLAGS) -c $<
+
+game: main.o io.o game_type.o
 	g++ $(FLAGS) $^ -o game
 
 clean:
