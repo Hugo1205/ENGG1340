@@ -1,8 +1,21 @@
-//hello is this working?
 #include <iostream>
-using namespace std;
+#include <string>
+#include <fstream>
+#include "game_type.h"
 
-int main () {
-  cout<<"Hello World"<<endl;
-  return 0;
+int ReadGameFromFile(games &game, string fname){
+    std::ifstream fin;
+    fin.open(fname.c_str());
+    if (fin.fail()){
+        std::cout<<"Error in file opening" << std::endl;
+        return 1;
+    }
+    for(int i=0;i<Maxheight;i++){
+        for(int j=0;j<MaxWidth;j++){
+            fin >> game.board[i][j];
+        }
+    }
+    fin >> game.score;
+    fin.close();
+    return 0;
 }
