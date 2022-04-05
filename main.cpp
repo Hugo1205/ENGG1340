@@ -1,8 +1,4 @@
-#include <iostream>
-#include <string>
-#include <fstream>
-//#include "io.h"
-//#include "game_type.h"
+#include "io.h"
 using namespace std;
 
 void menu ();
@@ -73,16 +69,14 @@ void readRules () {
 // i am unsure what steps you want here so i just initiated fstreams 
 
 //Function: Initiates a new board and starts the game
-void newGame () {
-  ifstream fin;
-  fin.open("gameBoard.txt");
-  if (fin.fail()) {
-    cout<<"Error in file newGame opening"<<endl;
-    exit(1);
-  }
-  ////CODES HERE/////
 
-  fin.close();
+void newGame () {
+  games game(initgame());//Since it is a new game we create a new game with type games
+  
+  //games(); //This will be the part where the game process take places.
+  string fname; //after the game is done ask for the name of save file
+  cin >> fname;
+  WriteGameToFile(game,fname); //maybe add error dealing later
 }
 
 //Function: Reads the board from the last game and outputs

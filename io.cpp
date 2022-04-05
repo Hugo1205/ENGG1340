@@ -1,9 +1,7 @@
-#include <iostream>
-#include <string>
 #include <fstream>
 #include "game_type.h"
 
-int ReadGameFromFile(games &game, string fname){
+int ReadGameFromFile(games &game, std::string fname){
     std::ifstream fin;
     fin.open(fname.c_str());
     if (fin.fail()){
@@ -20,7 +18,7 @@ int ReadGameFromFile(games &game, string fname){
     return 0;
 }
 
-int WriteGameToFile(games &game, string fname){
+int WriteGameToFile(games &game, std::string fname){
     std::ofstream fout;
     fout.open(fname.c_str());
     if (fout.fail()){
@@ -32,7 +30,7 @@ int WriteGameToFile(games &game, string fname){
             fout << game.board[i][j] << " ";
         }
     }
-    fout << game.score();
+    fout << game.score;
     fout.close();
     return 0;
 }
