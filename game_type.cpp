@@ -8,7 +8,7 @@ struct games{
     int score;
 };
 
-games initgame(){
+games initgame(){  //initgame to initialize every games board
     games game;
     for(int i=0;i<Maxheight;i++){
         for(int j=0;j<MaxWidth;j++){
@@ -18,4 +18,3 @@ games initgame(){
     game.score = 0;
     return game;
 }
-
