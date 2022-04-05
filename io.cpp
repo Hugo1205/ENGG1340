@@ -8,7 +8,7 @@ int ReadGameFromFile(games &game, string fname){
     fin.open(fname.c_str());
     if (fin.fail()){
         std::cout<<"Error in file opening" << std::endl;
-        return 1;
+        return 1; //return 1 instead of exit(1) to prevent shutting program down
     }
     for(int i=0;i<Maxheight;i++){
         for(int j=0;j<MaxWidth;j++){
@@ -19,6 +19,7 @@ int ReadGameFromFile(games &game, string fname){
     fin.close();
     return 0;
 }
+<<<<<<< HEAD
 
 int WriteGameToFile(games &game, string fname){
     std::ofstream fout;
@@ -36,3 +37,5 @@ int WriteGameToFile(games &game, string fname){
     fout.close();
     return 0;
 }
+=======
+>>>>>>> 2f98eb4f24fe9e0858a7167c623397e3a3642035
