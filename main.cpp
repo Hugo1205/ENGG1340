@@ -25,7 +25,7 @@ void menu () {
   cout<<"3. Game Rules"<<endl;
   cout<<"Enter Option Number: ";
   cin>>option;
-
+  // what about exit game?
   checkOption (option);  //function to check option selected
 }
 
@@ -39,6 +39,7 @@ void checkOption (int option) {
   else if (option == 3) {
     readRules ();
   }
+  // what if the player input none of the above
 }
 
 void readRules () {
