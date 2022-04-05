@@ -9,4 +9,4 @@ forms, that line disappears. The game continues.
 Defeat: The game ends if a vertical line of block pieces
 forms which touches the upper edge of the board!
 
-Good Luck! Have Fun!
+Good Luck! Have Fun! Enjoy!
