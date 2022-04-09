@@ -93,3 +93,41 @@ void loadGame () {
 
   fout.close();
 }
+// small 3*3 board as our shape
+// we first 
+
+/*
+*** *00
+0*0 *00
+0*0 *** 
+0<= ref.x <= upperbound-2
+0<= ref.y
+when ref.y > upperbound.y-2 we just print part of the fig.
+*/
+
+/*
+we check the bottom line every time the sharp drop, to see if it is attached to a block under
+check lines see any line were filled -> if any move the borad one row down and generate a new empty line at the end
+ref.y > upperbound.y-2 the play lose
+*/
+
+/*
+This week we try to print the board and do the shape dropping and moving regarding the input.
+
+Wasif will be doing:
+
+function one tread:
+2 parm one flag one is val for the hor. moving
+you decrease the val if player press a
+increase if player press d
+ignore cap look
+fucntion on the other tread:
+write the inital shape board
+
+Hugo will be doing :
+function on the other tread:
+print board and shape droping
+
+multi tread and input setup.
+
+*/
