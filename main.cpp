@@ -120,14 +120,19 @@ function one tread:
 2 parm one flag one is val for the hor. moving
 you decrease the val if player press a
 increase if player press d
+if the player press e 
+-> turn the flag to 0 which end the games
 ignore cap look
 fucntion on the other tread:
-write the inital shape board
+write the inital shape board -> write it inside the game_type.cpp -> game()
+
+void h_val(int &flag,int &val) -> io.h and io.cpp
+
 
 Hugo will be doing :
 function on the other tread:
 print board and shape droping
-
+void printgame(int &flag,games game)
 multi tread and input setup.
 
 */
