@@ -1,11 +1,12 @@
 #include <fstream>
 #include "game_type.h"
+using namespace std;
 
 int ReadGameFromFile(games &game, std::string fname){
-    std::ifstream fin;
+    ifstream fin;
     fin.open(fname.c_str());
     if (fin.fail()){
-        std::cout<<"Error in file opening" << std::endl;
+        cout<<"Error in file opening" << endl;
         return 1; //return 1 instead of exit(1) to prevent shutting program down
     }
     for(int i=0;i<Maxheight;i++){
@@ -18,11 +19,11 @@ int ReadGameFromFile(games &game, std::string fname){
     return 0;
 }
 
-int WriteGameToFile(games &game, std::string fname){
-    std::ofstream fout;
+int WriteGameToFile(games &game, string fname){
+    ofstream fout;
     fout.open(fname.c_str());
     if (fout.fail()){
-        std::cout << "Error in file opening" << std::endl;
+        cout << "Error in file opening" << endl;
         return 1;//return 1 instead of exit(1) to prevent shutting program down
     }
     for(int i=0;i<Maxheight;i++){
