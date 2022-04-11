@@ -13,3 +13,5 @@ struct shape{
 };
 
 games initgame();
+
+shape shapeList();
