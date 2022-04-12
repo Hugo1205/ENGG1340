@@ -1,5 +1,10 @@
 #include <iostream>
+#include <thread>
+#include <mutex>
 #include <string>
+#include <cstring>
+#include <unistd.h>
+#include <termios.h>
 #define Maxheight 17
 #define MaxWidth 18
 #define shapesize 3
@@ -8,7 +13,14 @@ struct games{
     int board[Maxheight][MaxWidth];
     int score;
 };
-
+class keyboard{//a class for easy management of input method
+    private:
+        struct termios setting;// a variable storing the orginal setting
+    public:
+        void off();//turn off echo for input and cancell the need of enter for input
+        void on();//turn the setting back to the orginal
+        keyboard();// a constructor to init. the setting variable
+};
 class shape{
     public:
         char (*board)[shapesize]; // a pointer to a 2D array that represent the board

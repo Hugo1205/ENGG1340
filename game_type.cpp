@@ -2,7 +2,9 @@
 #include <thread>
 #include <mutex>
 #include <string>
-#include "io.h"
+#include <cstring>
+#include <unistd.h>
+#include <termios.h>
 #define Maxheight 17
 #define MaxWidth 18
 #define shapesize 3
@@ -10,7 +12,24 @@ struct games{
     int board[Maxheight][MaxWidth];
     int score;
 };
-
+class keyboard{ //a class for easy management of input method
+    private:
+        struct termios setting; // a variable storing the orginal setting
+    public:
+        void off(){ //turn off echo for input and cancell the need of enter for input
+            struct termios t=setting;
+            t.c_lflag &= ~ICANON; //Manipulate the flag bits to do what we want it to do
+            t.c_lflag &= ~ECHO;
+            t.c_lflag |= ECHONL;
+            tcsetattr(STDIN_FILENO, TCSANOW, &t); //Apply the new settings
+        }
+        void on(){//turn the setting back to the orginal
+            tcsetattr(STDIN_FILENO, TCSANOW, &setting); //Apply the orginal settings
+        }
+        keyboard(){// a constructor to init. the setting variable
+            tcgetattr(STDIN_FILENO, &setting); //get the current terminal I/O structure
+        }
+};
 class shape
 {
     public:
@@ -48,7 +67,7 @@ class shape
                 for(int j=0;j<shapesize;j++){
                     std::cout << this->board[i][j] << " ";
                 }
-                std::cout << endl;
+                std::cout << std::endl;
             }
         }
         void operator=(shape *a){
