@@ -70,12 +70,7 @@ class shape
                 std::cout << std::endl;
             }
         }
-        void operator=(shape *a){
-            memcpy(this->board,a->board,shapesize*shapesize*sizeof(char)); //when = to a pointor, copy the board and i
-            this->i = a->i;
-            delete a; //delete the orignal pointer afterwards
-        }
-        void operator=(shape a){
+        void operator=(shape const &a){
             memcpy(this->board,a.board,shapesize*shapesize*sizeof(char)); //copy board
             this->i = a.i;//copy i
         }
