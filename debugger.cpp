@@ -3,7 +3,7 @@
 #include <thread>
 #include <mutex>
 #include <unistd.h>
-//#include <termios.h> //get more info tmr
+#include <termios.h> //get more info tmr
 using namespace std;
 void off(void){
     struct termios t;
