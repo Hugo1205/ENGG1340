@@ -36,6 +36,7 @@ class shape{
                     }
                 }
             }else{
+                delete [] p;
                 return;
             }
             delete [] board; //release the memeory for the orginal board
