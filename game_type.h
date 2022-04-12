@@ -8,8 +8,13 @@ struct games{
     int board[Maxheight][MaxWidth];
     int score;
 };
-struct shape{
-    int board[shapesize][shapesize];
+
+class shape{
+    char (*board)[shapesize]; // a pointer to a 2D array that represent the board
+    void setroation(int number); //rotation function of the board
+    void printboard();//print the board
+    shape(char p[][shapesize]); //a constructor for the shape
+    ~shape();//deconstructor for the shape
 };
 
 games initgame();
