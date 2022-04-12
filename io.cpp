@@ -30,7 +30,7 @@ int getshape(shape *&ls){
         if (pos>=size){
             growthlist(ls,size,increasesize);
         }
-        ls[pos++] = new shape(temp_ls);
+        ls[pos++] = shape(temp_ls);
     }
     return pos;
 }
