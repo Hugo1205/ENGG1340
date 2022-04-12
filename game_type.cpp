@@ -11,52 +11,66 @@ struct games{
     int score;
 };
 
-class shape{
+class shape
+{
     public:
-        char (*board)[shapesize];
+        char (*board)[shapesize];//declare of the board
+        
         void setroation(int number){
-            int target = (number-i)%4;//find how many rotation need to be made
-            char (*p)[shapesize] = new char [shapesize][shapesize]; //create a new board for rotation
-            if (target == 1){ //using different formular for different rotation
+            int target = (number-i)%4; //calc. how many rotation needed and perform the according rotation
+            if (target == 0)
+                return;
+            char (*p)[shapesize] = new char [shapesize][shapesize];
+            if (target == 1){
                 for(int x=0;x<shapesize;x++){
                     for(int y=0;y<shapesize;y++){
-                        p[x][y] = board[y][x];
+                        p[x][y] = this->board[y][x];
                     }
                 }
             }else if (target == 2){
                 for(int x=0;x<shapesize;x++){
                     for(int y=0;y<shapesize;y++){
-                        p[x][y] = board[shapesize-x-1][y];
-                    }
-                }
-            }else if(target == 3){
-                for(int x=0;x<shapesize;x++){
-                    for(int y=0;y<shapesize;y++){
-                        p[y][x] = board[shapesize-x-1][y];
+                        p[x][y] = this->board[shapesize-x-1][y];
                     }
                 }
             }else{
-                delete [] p;
-                return;
+                for(int x=0;x<shapesize;x++){
+                    for(int y=0;y<shapesize;y++){
+                        p[y][x] = this->board[shapesize-x-1][y];
+                    }
+                }
             }
-            delete [] board; //release the memeory for the orginal board
-            board = p;//setting the pointer to the new board
+            delete [] this->board;
+            this->board = p;
         }
         void printboard(){
-            for(int i=0;i<shapesize;i++){
+            for(int i=0;i<shapesize;i++){ //print the board
                 for(int j=0;j<shapesize;j++){
                     std::cout << this->board[i][j] << " ";
                 }
-                std::cout << std::endl;
+                std::cout << endl;
             }
         }
+        void operator=(shape *a){
+            memcpy(this->board,a->board,shapesize*shapesize*sizeof(char)); //when = to a pointor, copy the board and i
+            this->i = a->i;
+            delete a; //delete the orignal pointer afterwards
+        }
+        void operator=(shape a){
+            memcpy(this->board,a.board,shapesize*shapesize*sizeof(char)); //copy board
+            this->i = a.i;//copy i
+        }
         shape(char p[][shapesize]){
-            i = 0; //setting the rotation indicator to 0 when the class in constructed
-            board = new char [shapesize][shapesize]; //alocate memory for the board
-            memcpy(board,p,shapesize*shapesize*sizeof(char));//copy memory data from the given array to the board
-        };
+            this->i = 0; //set i to 0
+            this->board = new char [shapesize][shapesize]; //allocate memory for the board
+            memcpy(this->board,p,shapesize*shapesize*sizeof(char)); //copy memory data to board
+        }
+        shape(){
+            this->board = new char [shapesize][shapesize]; //allocate memory for the board
+            this->i = 0; //set i to 0
+        }
         ~shape() {
-            delete [] board;
+            delete [] this->board; //deconstructor realise the memory holding by the board when the class is distory
         }
     private:
         int i;
