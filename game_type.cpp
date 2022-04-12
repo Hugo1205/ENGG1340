@@ -1,5 +1,8 @@
 #include <iostream>
+#include <thread>
+#include <mutex>
 #include <string>
+#include "io.h"
 #define Maxheight 17
 #define MaxWidth 18
 #define shapesize 3
@@ -36,4 +39,11 @@ shape shapeList(){
   shapeArray[7] = {{{'0','0','*'},{'0','0','*'},{'*','*','*'}}}; //L rotated 270 degrees
 
   return shapeArray;
+}
+void game_main(games &game){
+    keyboard kb;
+    kb.off();
+
+
+    kb.off();
 }
