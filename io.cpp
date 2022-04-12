@@ -12,6 +12,7 @@ void growthlist(shape * &ls,int &size,int n){
     ls = new_ls; //set the pointer point to the new list 
     size += n; // give the new size
 }
+
 int getshape(shape *&ls){
     int size(increasesize),pos(0);//init. size and pos
     char temp; //create a temp char. for indicating begin of a shape
@@ -34,6 +35,7 @@ int getshape(shape *&ls){
     }
     return pos;
 }
+
 int ReadGameFromFile(games &game, std::string fname){
     ifstream fin;
     fin.open(fname.c_str());
@@ -66,4 +68,11 @@ int WriteGameToFile(games &game, string fname){
     fout << game.score;
     fout.close();
     return 0;
+}
+void game_main(games &game){
+    keyboard kb;
+    kb.off();
+
+
+    kb.off();
 }
