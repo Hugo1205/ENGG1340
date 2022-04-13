@@ -4,6 +4,9 @@
 #include <mutex>
 #include <unistd.h>
 #include <termios.h> //get more info tmr
+
+#include <fstream>
+
 using namespace std;
 void off(void){
     struct termios t;
@@ -29,11 +32,19 @@ void foo(string &a,int &flag){
 }
 
 void foo2(string &a,int &flag){
+    string shape[3][3]={{"X","X","X"},{"0","X","0"},{"0","X","0"}};
     while (flag){ //for ever loop
         for(int i=0;i<1;i++){
-            cout << a+"***" << endl;
-            cout << a+"0*0" << endl;
-            cout << a+"0*0" << endl;
+            for (int k = 0; k < 3; ++k) {
+                cout<<a;
+                for (int j = 0; j < 3; ++j) {
+                    cout<<shape[k][j];
+                }
+                cout<<endl;
+            }
+            //cout << a+"***" << endl;
+            //cout << a+"0*0" << endl;
+            //cout << a+"0*0" << endl;
             //cout << "\033[K" << endl;
             this_thread::sleep_for( chrono::duration<int, std::milli>( 1000 ) );
         }
@@ -45,6 +56,9 @@ void foo2(string &a,int &flag){
     }
 }
 int main(){
+    //ifstream fin;
+    //fin.open("shape.txt");
+    //char shape={{'X','X','X'},{'0','X','0'},{'0','X','0'}};
     string a="";
     int flag(1);
     off();
