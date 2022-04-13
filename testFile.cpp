@@ -14,26 +14,26 @@ void off(void){
     tcsetattr(STDIN_FILENO, TCSANOW, &t); //Apply the new settings
 }
 
-/*void foo(int &a,int &flag){
+void foo(string &a,int &flag){
     char c;
     this_thread::sleep_for( chrono::duration<int, std::milli>( 100 ) ); //sleep();
     while (flag){ //for ever loop
         c = getchar(); //input
-        if ('w'==c)
-            a++;
-        else if ('s'==c)
-            a--;
+        if ('d'==c)
+            a+=" ";
+        else if ('a'==c && a!="")
+            a.resize(a.size()-1);
         else if ('e' == c)
             flag = 0;
     }
-}*/
+}
 
-void foo2(int &a,int &flag){
+void foo2(string &a,int &flag){
     while (flag){ //for ever loop
         for(int i=0;i<1;i++){
-            cout << "***" << endl;
-            cout << "0*0" << endl;
-            cout << "0*0" << endl;
+            cout << a+"***" << endl;
+            cout << a+"0*0" << endl;
+            cout << a+"0*0" << endl;
             //cout << "\033[K" << endl;
             this_thread::sleep_for( chrono::duration<int, std::milli>( 1000 ) );
         }
@@ -45,13 +45,13 @@ void foo2(int &a,int &flag){
     }
 }
 int main(){
-    int a(0);
+    string a="";
     int flag(1);
     off();
-    //thread th1(foo,ref(a),ref(flag));
+    thread th1(foo,ref(a),ref(flag));
     //char arr={{''}}
     thread th2(foo2,ref(a),ref(flag));
-    //th1.join();
+    th1.join();
     th2.join();
     return 0;
 }
