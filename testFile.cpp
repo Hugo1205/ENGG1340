@@ -124,7 +124,7 @@ void foo(int &flag,shape &shapetest){
 void foo2(int &flag,shape &shapetest,games game){
     //string shape[3][3]={{"X","X","X"},{"0","X","0"},{"0","X","0"}};
     while (flag){ //for ever loop
-        for(int i=0;i<10;i++){
+        for(int i=0;i<6;i++){
             for (int k = 0; k < 3; ++k) {
                 //cout<<"\033[1C"<<endl;
                 for (int m = 0; m <shapetest.x; ++m) {
@@ -141,11 +141,11 @@ void foo2(int &flag,shape &shapetest,games game){
             //cout << "\033[K" << endl;
             this_thread::sleep_for( chrono::duration<int, std::milli>( 1000 ) );
         }
-        cout <<  "\033[30A";
-        for(int i=0;i<30;i++){
+        cout <<  "\033[18A";
+        for(int i=0;i<18;i++){
             cout << "\033[K" << endl;
         }
-        cout <<  "\033[30A";
+        cout <<  "\033[18A";
     }
 }
 int ReadGameFromFile(games &game, std::string fname){
@@ -164,6 +164,15 @@ int ReadGameFromFile(games &game, std::string fname){
     fin.close();
     return 0;
 }
+//printing main board
+void printMainBoard(games game) {
+    for (int i = 0; i < Maxheight; ++i) {
+        for (int j = 0; j < MaxWidth; ++j) {
+            cout<<game.board[i][j];
+        }
+        cout<<endl;
+    }
+}
 
 int main(){
     keyboard kb;
@@ -174,6 +183,7 @@ int main(){
     ReadGameFromFile(game,"gameboard.txt");
     //int a=shapetest.x;
     int flag(1);
+    printMainBoard(game);
     //off();
     thread th1(foo,ref(flag),ref(shapetest));
     //char arr={{''}}
