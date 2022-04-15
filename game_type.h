@@ -24,6 +24,7 @@ class keyboard{//a class for easy management of input method
 class shape{
     public:
         char (*board)[shapesize]; // a pointer to a 2D array that represent the board
+        int x,y; //location ref to the larger game board
         void setroation(int number); //rotation function of the board
         void printboard();//print the board
         void operator=(shape const &a); //operator = when dealing with shape

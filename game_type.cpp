@@ -36,6 +36,7 @@ keyboard::keyboard(){// a constructor to init. the setting variable
 class shape{
     public:
         char (*board)[shapesize];//declare of the board
+        int x,y; //location ref to the larger game board
         void setroation(int number); //rotation function of the board
         void printboard();
         void operator=(shape const &a);
@@ -87,12 +88,16 @@ void shape::operator=(shape const &a){
 }
 shape::shape(char p[][shapesize]){
     this->i = 0; //set i to 0
+    this->x = 0;
+    this->y = 0;
     this->board = new char [shapesize][shapesize]; //allocate memory for the board
     memcpy(this->board,p,shapesize*shapesize*sizeof(char)); //copy memory data to board
 }
 shape::shape(){
     this->board = new char [shapesize][shapesize]; //allocate memory for the board
     this->i = 0; //set i to 0
+    this->x = 0;
+    this->y = 0;
 }
 shape::~shape() {
     delete [] this->board; //deconstructor realise the memory holding by the board when the class is distory
