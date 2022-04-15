@@ -4,41 +4,134 @@
 #include <mutex>
 #include <unistd.h>
 #include <termios.h> //get more info tmr
-
+#include <cstring>
+#define Maxheight 17
+#define MaxWidth 18
+#define shapesize 3
 #include <fstream>
 
 using namespace std;
-void off(void){
-    struct termios t;
-    tcgetattr(STDIN_FILENO, &t); //get the current terminal I/O structure
-    t.c_lflag &= ~ICANON; //Manipulate the flag bits to do what you want it to do
+struct games{
+    char board[Maxheight][MaxWidth];
+    int score;
+};
+
+class keyboard{ //a class for easy management of input method
+    private:
+        struct termios setting; // a variable storing the orginal setting
+    public:
+        void off();
+        void on();
+        keyboard();
+};
+void keyboard::off(){ //turn off echo for input and cancell the need of enter for input
+    struct termios t=setting;
+    t.c_lflag &= ~ICANON; //Manipulate the flag bits to do what we want it to do
     t.c_lflag &= ~ECHO;
     t.c_lflag |= ECHONL;
     tcsetattr(STDIN_FILENO, TCSANOW, &t); //Apply the new settings
 }
+void keyboard::on(){//turn the setting back to the orginal
+    tcsetattr(STDIN_FILENO, TCSANOW, &setting); //Apply the orginal settings
+}
+keyboard::keyboard(){// a constructor to init. the setting variable
+    tcgetattr(STDIN_FILENO, &setting); //get the current terminal I/O structure
+}
+class shape{
+    public:
+        char (*board)[shapesize];//declare of the board
+        int x,y; //location ref to the larger game board
+        void setroation(int number); //rotation function of the board
+        void printboard();
+        void operator=(shape const &a);
+        shape(char p[][shapesize]); //a constructor for the shape when provided a char array
+        shape(); //empty constructor
+        ~shape();//deconstructor for the shape
+    private:
+        int i;
 
-void foo(string &a,int &flag){
+};
+void shape::setroation(int number){
+    int target = (number-i)%4; //calc. how many rotation needed and perform the according rotation
+    if (target == 0)
+        return;
+    char (*p)[shapesize] = new char [shapesize][shapesize];
+    if (target == 1){
+        for(int x=0;x<shapesize;x++){
+            for(int y=0;y<shapesize;y++){
+                p[x][y] = this->board[y][x];
+            }
+        }
+    }else if (target == 2){
+        for(int x=0;x<shapesize;x++){
+            for(int y=0;y<shapesize;y++){
+                p[x][y] = this->board[shapesize-x-1][y];
+            }
+        }
+    }else{
+        for(int x=0;x<shapesize;x++){
+            for(int y=0;y<shapesize;y++){
+                p[y][x] = this->board[shapesize-x-1][y];
+            }
+        }
+    }
+    delete [] this->board;
+    this->board = p;
+}
+void shape::printboard(){
+    for(int i=0;i<shapesize;i++){ //print the board
+        for(int j=0;j<shapesize;j++){
+            std::cout << this->board[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+}
+void shape::operator=(shape const &a){
+    memcpy(this->board,a.board,shapesize*shapesize*sizeof(char)); //copy board
+    this->i = a.i;//copy i
+}
+shape::shape(char p[][shapesize]){
+    this->i = 0; //set i to 0
+    this->x = 0;
+    this->y = 0;
+    this->board = new char [shapesize][shapesize]; //allocate memory for the board
+    memcpy(this->board,p,shapesize*shapesize*sizeof(char)); //copy memory data to board
+}
+shape::shape(){
+    this->board = new char [shapesize][shapesize]; //allocate memory for the board
+    this->i = 0; //set i to 0
+    this->x = 0;
+    this->y = 0;
+}
+shape::~shape() {
+    delete [] this->board; //deconstructor realise the memory holding by the board when the class is distory
+}
+
+void foo(int &flag,shape &shapetest){
     char c;
     this_thread::sleep_for( chrono::duration<int, std::milli>( 100 ) ); //sleep();
     while (flag){ //for ever loop
         c = getchar(); //input
         if ('d'==c)
-            a+=" ";
-        else if ('a'==c && a!="")
-            a.resize(a.size()-1);
+            shapetest.x+=1;
+        else if ('a'==c && shapetest.x!=0)
+            shapetest.x-=1;
         else if ('e' == c)
             flag = 0;
     }
 }
 
-void foo2(string &a,int &flag){
-    string shape[3][3]={{"X","X","X"},{"0","X","0"},{"0","X","0"}};
+void foo2(int &flag,shape &shapetest,games game){
+    //string shape[3][3]={{"X","X","X"},{"0","X","0"},{"0","X","0"}};
     while (flag){ //for ever loop
-        for(int i=0;i<1;i++){
+        for(int i=0;i<10;i++){
             for (int k = 0; k < 3; ++k) {
-                cout<<a;
-                for (int j = 0; j < 3; ++j) {
-                    cout<<shape[k][j];
+                //cout<<"\033[1C"<<endl;
+                for (int m = 0; m <shapetest.x; ++m) {
+                    cout<<" ";
+                }
+                for (int m = 0;m < shapesize; ++m) {
+                    cout<<shapetest.board[k][m];
                 }
                 cout<<endl;
             }
@@ -48,24 +141,45 @@ void foo2(string &a,int &flag){
             //cout << "\033[K" << endl;
             this_thread::sleep_for( chrono::duration<int, std::milli>( 1000 ) );
         }
-        cout <<  "\033[3A";
-        for(int i=0;i<3;i++){
+        cout <<  "\033[30A";
+        for(int i=0;i<30;i++){
             cout << "\033[K" << endl;
         }
-        //cout <<  "\033[10A";
+        cout <<  "\033[30A";
     }
 }
+int ReadGameFromFile(games &game, std::string fname){
+    ifstream fin;
+    fin.open(fname);
+    if (fin.fail()){
+        cout<<"Error in file opening" << endl;
+        return 1; //return 1 instead of exit(1) to prevent shutting program down
+    }
+    for(int i=0;i<Maxheight;i++){
+        for(int j=0;j<MaxWidth;j++){
+            fin >> game.board[i][j];
+        }
+    }
+    fin >> game.score;
+    fin.close();
+    return 0;
+}
+
 int main(){
-    //ifstream fin;
-    //fin.open("shape.txt");
-    //char shape={{'X','X','X'},{'0','X','0'},{'0','X','0'}};
-    string a="";
+    keyboard kb;
+    kb.off();
+    char test[shapesize][shapesize] = {{'*','*','*'},{'0','*','0'},{'0','*','0'}};
+    shape shapetest(test);
+    games game;
+    ReadGameFromFile(game,"gameboard.txt");
+    //int a=shapetest.x;
     int flag(1);
-    off();
-    thread th1(foo,ref(a),ref(flag));
+    //off();
+    thread th1(foo,ref(flag),ref(shapetest));
     //char arr={{''}}
-    thread th2(foo2,ref(a),ref(flag));
+    thread th2(foo2,ref(flag),ref(shapetest),ref(game));
     th1.join();
     th2.join();
+    kb.on();
     return 0;
 }

@@ -9,7 +9,7 @@
 #define MaxWidth 18
 #define shapesize 3
 struct games{
-    int board[Maxheight][MaxWidth];
+    char board[Maxheight][MaxWidth];
     int score;
 };
 class keyboard{ //a class for easy management of input method
