@@ -149,7 +149,7 @@ void foo2(int &flag,shape &shapetest,games game){
     }
 }
 int ReadGameFromFile(games &game, std::string fname){
-    ifstream fin;
+    fstream fin;
     fin.open(fname);
     if (fin.fail()){
         cout<<"Error in file opening" << endl;
@@ -157,7 +157,9 @@ int ReadGameFromFile(games &game, std::string fname){
     }
     for(int i=0;i<Maxheight;i++){
         for(int j=0;j<MaxWidth;j++){
-            fin >> game.board[i][j];
+            char temp;
+            fin >> temp;
+            game.board[i][j] = temp;
         }
     }
     fin >> game.score;
