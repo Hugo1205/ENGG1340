@@ -43,7 +43,6 @@ class shape{
         shape(char p[][shapesize]); //a constructor for the shape when provided a char array
         shape(); //empty constructor
         ~shape();//deconstructor for the shape
-    private:
         int i;
 
 };
