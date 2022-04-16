@@ -44,7 +44,9 @@ int ReadGameFromFile(games &game, std::string fname){
     }
     for(int i=0;i<Maxheight;i++){
         for(int j=0;j<MaxWidth;j++){
-            fin >> game.board[i][j];
+            char temp;
+            fin >> temp;
+            game.board[i][j] = temp;
         }
     }
     fin >> game.score;
