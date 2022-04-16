@@ -5,10 +5,9 @@
 #include <cstring>
 #include <unistd.h>
 #include <termios.h>
-#define Maxheight 17
-#define MaxWidth 18
-#define shapesize 3
-
+const int Maxheight = 17;
+const int MaxWidth = 18;
+const int shapesize = 3;
 struct games{
     int board[Maxheight][MaxWidth];
     int score;

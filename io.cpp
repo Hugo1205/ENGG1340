@@ -1,8 +1,7 @@
 #include <fstream>
 #include "game_type.h"
-#define increasesize 3
 using namespace std;
-
+const int increasesize = 3;
 void growthlist(shape * &ls,int &size,int n){
     shape * new_ls = new shape[size+n]; //create a new list with added length
     for(int i=0;i<size;i++){
