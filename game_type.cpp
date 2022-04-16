@@ -9,7 +9,7 @@ const int Maxheight = 17;
 const int MaxWidth = 18;
 const int shapesize = 3;
 struct games{
-    int board[Maxheight][MaxWidth];
+    char board[Maxheight][MaxWidth];
     int score;
 };
 class keyboard{ //a class for easy management of input method
