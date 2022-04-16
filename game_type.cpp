@@ -37,7 +37,7 @@ class shape{
     public:
         char (*board)[shapesize];//declare of the board
         int x,y; //location ref to the larger game board
-        void setroation(int number); //rotation function of the board
+        void SetRotation(int number); //rotation function of the board
         void printboard();
         void operator=(shape const &a);
         shape(char p[][shapesize]); //a constructor for the shape when provided a char array
@@ -46,32 +46,41 @@ class shape{
         int i;
 
 };
-void shape::setroation(int number){
-    int target = (number-i)%4; //calc. how many rotation needed and perform the according rotation
+void shape::SetRotation(int number){
+    int target = (number-this->i)%4; //calc. how many rotation needed and perform the according rotation
+    this->i = number%4;
     if (target == 0)
         return;
     char (*p)[shapesize] = new char [shapesize][shapesize];
     if (target == 1){
-        for(int x=0;x<shapesize;x++){
-            for(int y=0;y<shapesize;y++){
-                p[x][y] = this->board[y][x];
+        for(int j=0;j<shapesize;j++){
+            for(int k=0;k<shapesize;k++){
+                p[shapesize-j-1][k] = this->board[k][j];
             }
         }
     }else if (target == 2){
-        for(int x=0;x<shapesize;x++){
-            for(int y=0;y<shapesize;y++){
-                p[x][y] = this->board[shapesize-x-1][y];
+        for(int j=0;j<shapesize;j++){
+            for(int k=0;k<shapesize;k++){
+                p[j][k] = this->board[shapesize-j-1][k];
             }
         }
-    }else{
-        for(int x=0;x<shapesize;x++){
-            for(int y=0;y<shapesize;y++){
-                p[y][x] = this->board[shapesize-x-1][y];
+    }else { //either -1 or 3
+        for(int j=0;j<shapesize;j++){
+            for(int k=0;k<shapesize;k++){
+                p[k][j] = this->board[shapesize-j-1][k];
             }
         }
     }
     delete [] this->board;
     this->board = p;
+}
+void shape::printboard(){
+    for(int i=0;i<shapesize;i++){ //print the board
+        for(int j=0;j<shapesize;j++){
+            std::cout << this->board[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
 }
 void shape::printboard(){
     for(int i=0;i<shapesize;i++){ //print the board

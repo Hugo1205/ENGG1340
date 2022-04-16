@@ -47,31 +47,31 @@ class shape{
         shape(char p[][shapesize]); //a constructor for the shape when provided a char array
         shape(); //empty constructor
         ~shape();//deconstructor for the shape
-    private:
         int i;
 
 };
 void shape::setroation(int number){
-    int target = (number-i)%4; //calc. how many rotation needed and perform the according rotation
+    int target = (number-this->i)%4; //calc. how many rotation needed and perform the according rotation
+    this->i = number%4;
     if (target == 0)
         return;
     char (*p)[shapesize] = new char [shapesize][shapesize];
     if (target == 1){
-        for(int x=0;x<shapesize;x++){
-            for(int y=0;y<shapesize;y++){
-                p[x][y] = this->board[y][x];
+        for(int j=0;j<shapesize;j++){
+            for(int k=0;k<shapesize;k++){
+                p[shapesize-j-1][k] = this->board[k][j];
             }
         }
     }else if (target == 2){
-        for(int x=0;x<shapesize;x++){
-            for(int y=0;y<shapesize;y++){
-                p[x][y] = this->board[shapesize-x-1][y];
+        for(int j=0;j<shapesize;j++){
+            for(int k=0;k<shapesize;k++){
+                p[j][k] = this->board[shapesize-j-1][k];
             }
         }
-    }else{
-        for(int x=0;x<shapesize;x++){
-            for(int y=0;y<shapesize;y++){
-                p[y][x] = this->board[shapesize-x-1][y];
+    }else { //either -1 or 3
+        for(int j=0;j<shapesize;j++){
+            for(int k=0;k<shapesize;k++){
+                p[k][j] = this->board[shapesize-j-1][k];
             }
         }
     }
@@ -116,6 +116,10 @@ void foo(int &flag,shape &shapetest){
             shapetest.x+=1;
         else if ('a'==c && shapetest.x!=0)
             shapetest.x-=1;
+        else if ('w'==c)
+            shapetest.setroation(shapetest.i+1);
+        else if ('s' == c)
+            shapetest.setroation(shapetest.i-1);
         else if ('e' == c)
             flag = 0;
     }
@@ -139,7 +143,7 @@ void foo2(int &flag,shape &shapetest,games game){
             //cout << a+"0*0" << endl;
             //cout << a+"0*0" << endl;
             //cout << "\033[K" << endl;
-            this_thread::sleep_for( chrono::duration<int, std::milli>( 1000 ) );
+            this_thread::sleep_for( chrono::duration<int, std::milli>( 100 ) );
         }
         cout <<  "\033[18A";
         for(int i=0;i<18;i++){
