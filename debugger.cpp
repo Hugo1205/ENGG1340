@@ -1,53 +1,58 @@
 #include <iostream>
 #include <string>
-#include <thread>
-#include <mutex>
-#include <unistd.h>
-#include <termios.h> //get more info tmr
+#define Maxheight 17
+#define MaxWidth 18
+
 using namespace std;
-void off(void){
-    struct termios t;
-    tcgetattr(STDIN_FILENO, &t); //get the current terminal I/O structure
-    t.c_lflag &= ~ICANON; //Manipulate the flag bits to do what you want it to do
-    t.c_lflag &= ~ECHO;
-    t.c_lflag |= ECHONL;
-    tcsetattr(STDIN_FILENO, TCSANOW, &t); //Apply the new settings
+
+void printBoard (char board[][18],char shapes[][3]);
+
+int main () {
+  char board[Maxheight][MaxWidth] = {{'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
+                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'}};
+
+  char shapes[3][3] = {{'X','X','X'},{'0','X','0'},{'0','X','0'}};
+  /*for (int i = 0; i < 3; ++i) {
+    for (int j =0; j < 3; ++j) {
+      cout<<shapes[i][j];
+    }
+    cout<<endl;
+  }*/
+  printBoard(board,shapes);
 }
 
-void foo(int &a,int &flag){
-    char c;
-    this_thread::sleep_for( chrono::duration<int, std::milli>( 100 ) ); //sleep();
-    while (flag){ //for ever loop
-        c = getchar(); //input
-        if ('w'==c)
-            a++;
-        else if ('s'==c)
-            a--;
-        else if ('e' == c)
-            flag = 0;
-    }
-}
-
-void foo2(int &a,int &flag){
-    while (flag){ //for ever loop
-        for(int i=0;i<10;i++){
-            cout << a << endl;
-            this_thread::sleep_for( chrono::duration<int, std::milli>( 100 ) );
+void printBoard (char board[][18],char shapes[][3]) {
+  int xIdx = 4,yIdx = 4;
+  int xPos = 0, yPos = 0;
+  for (int i = 0; i < Maxheight; ++i) {
+    for (int j = 0; j < MaxWidth; ++j) {
+      if ((i == yIdx && j == xIdx)||(i == yIdx && j == xIdx+1)||(i == yIdx && j == xIdx+2)||(i == yIdx+1 && j == xIdx)||(i == yIdx+1 && j == xIdx+1)||(i == yIdx+1 && j == xIdx+2)||(i == yIdx+2 && j == xIdx)||(i == yIdx+2 && j == xIdx+1)||(i == yIdx+2 && j == xIdx+2)){
+        cout<<shapes[yPos][xPos];
+        xPos+=1;
+        if (xPos>2) {
+          yPos+=1;
+          xPos=0;
         }
-        cout <<  "\033[10A";
-        for(int i=0;i<10;i++){
-            cout << "\033[K" << endl;
-        }
-        cout <<  "\033[10A";
+      }
+      else{
+        cout<<board[i][j];
+      }
     }
-}
-int main(){
-    int a(0);
-    int flag(1);
-    off();
-    thread th1(foo,ref(a),ref(flag));
-    thread th2(foo2,ref(a),ref(flag));
-    th1.join();
-    th2.join();
-    return 0;
+    cout<<endl;
+  }
 }
