@@ -82,14 +82,6 @@ void shape::printboard(){
         std::cout << std::endl;
     }
 }
-void shape::printboard(){
-    for(int i=0;i<shapesize;i++){ //print the board
-        for(int j=0;j<shapesize;j++){
-            std::cout << this->board[i][j] << " ";
-        }
-        std::cout << std::endl;
-    }
-}
 void shape::operator=(shape const &a){
     memcpy(this->board,a.board,shapesize*shapesize*sizeof(char)); //copy board
     this->i = a.i;//copy i
