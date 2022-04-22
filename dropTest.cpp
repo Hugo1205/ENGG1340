@@ -51,27 +51,28 @@ class shape{
         int i;
 
 };
-void shape::setroation(int number){
-    int target = (number-i)%4; //calc. how many rotation needed and perform the according rotation
+void shape::SetRotation(int number){
+    int target = (number-this->i)%4; //calc. how many rotation needed and perform the according rotation
+    this->i = number%4;
     if (target == 0)
         return;
     char (*p)[shapesize] = new char [shapesize][shapesize];
     if (target == 1){
-        for(int x=0;x<shapesize;x++){
-            for(int y=0;y<shapesize;y++){
-                p[x][y] = this->board[y][x];
+        for(int j=0;j<shapesize;j++){
+            for(int k=0;k<shapesize;k++){
+                p[shapesize-j-1][k] = this->board[k][j];
             }
         }
     }else if (target == 2){
-        for(int x=0;x<shapesize;x++){
-            for(int y=0;y<shapesize;y++){
-                p[x][y] = this->board[shapesize-x-1][y];
+        for(int j=0;j<shapesize;j++){
+            for(int k=0;k<shapesize;k++){
+                p[j][k] = this->board[shapesize-j-1][k];
             }
         }
-    }else{
-        for(int x=0;x<shapesize;x++){
-            for(int y=0;y<shapesize;y++){
-                p[y][x] = this->board[shapesize-x-1][y];
+    }else { //either -1 or 3
+        for(int j=0;j<shapesize;j++){
+            for(int k=0;k<shapesize;k++){
+                p[k][j] = this->board[shapesize-j-1][k];
             }
         }
     }
@@ -128,15 +129,11 @@ void foo2(int &flag,shape &shapetest,games game){
             for (int s1 = 0; s1 < Maxheight;++s1) {
                 for (int s2 = 0; s2 < MaxWidth; ++s2) {
                     if ((s1 == shapetest.y && s2 == shapetest.x) || (s1 == shapetest.y && s2 == shapetest.x+1) || (s1 == shapetest.y && s2 == shapetest.x+2) || (s1 == shapetest.y+1 && s2 == shapetest.x) || (s1 == shapetest.y+1 && s2 == shapetest.x+1) || (s1 == shapetest.y+1 && s2 == shapetest.x+2) || (s1 == shapetest.y+2 && s2 == shapetest.x) || (s1 == shapetest.y+2 && s2 == shapetest.x+1) || (s1 == shapetest.y+2 && s2 == shapetest.x+2)) {
-
                             cout<<shapetest.board[yIdx][xIdx];
                             xIdx+=1;
                             if (xIdx>2) {
                                 yIdx+=1;
                                 xIdx=0;
-                            }
-                            if (yIdx>2) {
-                                shapetest.y+=1;
                             }
 
                     }
@@ -146,7 +143,8 @@ void foo2(int &flag,shape &shapetest,games game){
                 }
                 cout<<endl;
             }
-
+            shapetest.y += 1;
+            //flag = coll();
             this_thread::sleep_for( chrono::duration<int, std::milli>( 1000 ) );
         //}
         cout <<  "\033[17A";
@@ -192,7 +190,6 @@ int main(){
     ReadGameFromFile(game,"gameboard.txt");
     //int a=shapetest.x;
     int flag(1);
-    printMainBoard(game);
     //off();
     thread th1(foo,ref(flag),ref(shapetest));
     //char arr={{''}}
