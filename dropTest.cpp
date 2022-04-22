@@ -41,14 +41,15 @@ class shape{
     public:
         char (*board)[shapesize];//declare of the board
         int x,y; //location ref to the larger game board
-        void setroation(int number); //rotation function of the board
+        void SetRotation(int number); //rotation function of the board
         void printboard();
         void operator=(shape const &a);
         shape(char p[][shapesize]); //a constructor for the shape when provided a char array
         shape(); //empty constructor
         ~shape();//deconstructor for the shape
-    private:
         int i;
+    //private:
+        //int i;
 
 };
 void shape::SetRotation(int number){
@@ -113,12 +114,19 @@ void foo(int &flag,shape &shapetest){
     this_thread::sleep_for( chrono::duration<int, std::milli>( 100 ) ); //sleep();
     while (flag){ //for ever loop
         c = getchar(); //input
-        if ('d'==c)
+        if ('d'==c && shapetest.x != 15)
             shapetest.x+=1;
-        else if ('a'==c && shapetest.x!=0)
+        else if ('a'== c && shapetest.x != 0)
             shapetest.x-=1;
+        else if ('w' == c) {
+            shapetest.SetRotation(shapetest.i+1);
+        }
+        else if ('s' == c) {
+            shapetest.SetRotation(shapetest.i-1);
+        }
         else if ('e' == c)
             flag = 0;
+
     }
 }
 
