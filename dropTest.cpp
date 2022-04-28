@@ -132,7 +132,6 @@ void moveIntake(int &flag,shape &shapetest){
 
 void boardPrinter(int &flag,shape &shapetest,games game){
     while (flag){ //for ever loop
-        //for(int i=0;i<6;i++){
             int xIdx = 0, yIdx = 0;
             for (int s1 = 0; s1 < Maxheight;++s1) {
                 for (int s2 = 0; s2 < MaxWidth; ++s2) {
@@ -152,15 +151,12 @@ void boardPrinter(int &flag,shape &shapetest,games game){
                 cout<<endl;
             }
             shapetest.y += 1;
-            //flag = coll();
             this_thread::sleep_for( chrono::duration<int, std::milli>( 1000 ) );
-        //}
         cout <<  "\033[17A";
         for(int i=0;i<17;i++){
             cout << "\033[K" << endl;
         }
         cout <<  "\033[17A";
-        //cout<<"\033[2J]";
     }
 }
 int ReadGameFromFile(games &game, std::string fname){
