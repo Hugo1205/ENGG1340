@@ -109,7 +109,7 @@ shape::~shape() {
     delete [] this->board; //deconstructor realise the memory holding by the board when the class is distory
 }
 
-void foo(int &flag,shape &shapetest){
+void moveIntake(int &flag,shape &shapetest){
     char c;
     this_thread::sleep_for( chrono::duration<int, std::milli>( 100 ) ); //sleep();
     while (flag){ //for ever loop
@@ -130,7 +130,7 @@ void foo(int &flag,shape &shapetest){
     }
 }
 
-void foo2(int &flag,shape &shapetest,games game){
+void boardPrinter(int &flag,shape &shapetest,games game){
     while (flag){ //for ever loop
         //for(int i=0;i<6;i++){
             int xIdx = 0, yIdx = 0;
@@ -199,9 +199,9 @@ int main(){
     //int a=shapetest.x;
     int flag(1);
     //off();
-    thread th1(foo,ref(flag),ref(shapetest));
+    thread th1(moveIntake,ref(flag),ref(shapetest));
     //char arr={{''}}
-    thread th2(foo2,ref(flag),ref(shapetest),ref(game));
+    thread th2(boardPrinter,ref(flag),ref(shapetest),ref(game));
     th1.join();
     th2.join();
     kb.on();
