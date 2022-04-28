@@ -13,7 +13,7 @@ void growthlist(shape * &ls,int &size,int n){
 }
 
 int getshape(shape *&ls){
-    int size(increasesize),pos(0);//init. size and pos
+    int size(0),pos(0);//init. size and pos
     char temp; //create a temp char. for indicating begin of a shape
     ifstream fin;
     fin.open("shapels.txt");
@@ -135,9 +135,11 @@ void game_main(games &game){
     //i used this in my previous code-
     //char test[shapesize][shapesize] = {{'*','*','*'},{'0','*','0'},{'0','*','0'}};
     //shape shapetest(test);
+    shape * ls;
+    getshape(ls);
     int flag(1);
-    thread th1(moveIntake,ref(flag),ref(shapetest));
-    thread th2(boardPrinter,ref(flag),ref(shapetest),ref(game));
+    thread th1(moveIntake,ref(flag),ref(*ls));
+    thread th2(boardPrinter,ref(flag),ref(*ls),ref(game));
     th1.join();
     th2.join();
 
