@@ -77,6 +77,7 @@ void moveIntake(int &flag,shape &shapetest){
     this_thread::sleep_for( chrono::duration<int, std::milli>( 100 ) ); //sleep();
     while (flag){ //for ever loop
         c = getchar(); //input
+        c - tolower(c); //to make it work for both upper and lower cases
         if ('d'==c && shapetest.x != 15)
             shapetest.x+=1;
         else if ('a'== c && shapetest.x != 0)
@@ -122,18 +123,25 @@ void boardPrinter(int &flag,shape &shapetest,games game){
         cout <<  "\033[17A";
     }
 }
-//NEW CODES START END
+//NEW CODES END
 
 void game_main(games &game){
     keyboard kb;
     kb.off();
 
     //NEW CODES START
+    //call the shapefuntion here to initiate shape
+    // **code here** //
+    //i used this in my previous code-
+    //char test[shapesize][shapesize] = {{'*','*','*'},{'0','*','0'},{'0','*','0'}};
+    //shape shapetest(test);
     int flag(1);
     thread th1(moveIntake,ref(flag),ref(shapetest));
     thread th2(boardPrinter,ref(flag),ref(shapetest),ref(game));
     th1.join();
     th2.join();
-    //NEW CODES END
+
+//NEW CODES END
+
     kb.off();
 }
