@@ -1,7 +1,4 @@
-# DO NOT edit Makefile in the editor
-# Either copy-and-paste from your version,
-#   or use the "Submission" tab
-FLAGS = -pthread -pedantic-errors -std=c++11
+FLAGS = -pthread -pedantic-errors -std=c++11 -g
 
 game: main.o io.o game_type.o
 	g++ $(FLAGS) $^ -o game

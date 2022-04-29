@@ -4,15 +4,17 @@ using namespace std;
 const int increasesize = 3;
 void growthlist(shape * &ls,int &size,int n){
     shape * new_ls = new shape[size+n]; //create a new list with added length
-    for(int i=0;i<size;i++){
-        new_ls[i] = ls[i]; //copy data from the old list to new list
+    if(ls != nullptr){
+        for(int i=0;i<size;i++){
+            new_ls[i] = ls[i]; //copy data from the old list to new list
+        }
+        delete [] ls; //delete the old list
     }
-    delete [] ls; //delete the old list
     ls = new_ls; //set the pointer point to the new list
     size += n; // give the new size
 }
 
-int getshape(shape *&ls){
+int getshape(shape * &ls){
     int size(0),pos(0);//init. size and pos
     char temp; //create a temp char. for indicating begin of a shape
     ifstream fin;
@@ -94,18 +96,13 @@ void moveIntake(int &flag,shape &shapetest){
     }
 }
 
-void boardPrinter(int &flag,shape &shapetest,games game){
+void boardPrinter(int &flag,shape & shapetest,games &game){
     while (flag){ //for ever loop
             int xIdx = 0, yIdx = 0;
             for (int s1 = 0; s1 < Maxheight;++s1) {
                 for (int s2 = 0; s2 < MaxWidth; ++s2) {
                     if ((s1 == shapetest.y && s2 == shapetest.x) || (s1 == shapetest.y && s2 == shapetest.x+1) || (s1 == shapetest.y && s2 == shapetest.x+2) || (s1 == shapetest.y+1 && s2 == shapetest.x) || (s1 == shapetest.y+1 && s2 == shapetest.x+1) || (s1 == shapetest.y+1 && s2 == shapetest.x+2) || (s1 == shapetest.y+2 && s2 == shapetest.x) || (s1 == shapetest.y+2 && s2 == shapetest.x+1) || (s1 == shapetest.y+2 && s2 == shapetest.x+2)) {
-                            if(shapetest.board[yIdx][xIdx] != '0'){
-                                cout<<shapetest.board[yIdx][xIdx];    //FIX IN MAIN
-                            }
-                            else {
-                                cout<<game.board[s1][s2];
-                            }
+                            cout<<shapetest.board[yIdx][xIdx];
                             xIdx+=1;
                             if (xIdx>2) {
                                 yIdx+=1;
@@ -121,12 +118,11 @@ void boardPrinter(int &flag,shape &shapetest,games game){
             }
             shapetest.y += 1;
             this_thread::sleep_for( chrono::duration<int, std::milli>( 1000 ) );
-        cout<<game.score<<endl;  ///NEEDS FIXING TO PRINT SCORE
-        cout <<  "\033[18A";
-        for(int i=0;i<18;i++){
+        cout <<  "\033[17A";
+        for(int i=0;i<17;i++){
             cout << "\033[K" << endl;
         }
-        cout <<  "\033[18A";
+        cout <<  "\033[17A";
     }
 }
 //NEW CODES END
@@ -141,15 +137,17 @@ void game_main(games &game){
     //i used this in my previous code-
     //char test[shapesize][shapesize] = {{'*','*','*'},{'0','*','0'},{'0','*','0'}};
     //shape shapetest(test);
-    shape * ls;
-    getshape(ls);
+    shape * ls = nullptr;
+    int len = getshape(ls);
     int flag(1);
-    thread th1(moveIntake,ref(flag),ref(*ls));
-    thread th2(boardPrinter,ref(flag),ref(*ls),ref(game));
+    shape temp;
+    temp = ls[0];
+    thread th1(moveIntake,ref(flag),ref(temp));
+    thread th2(boardPrinter,ref(flag),ref(temp),ref(game));
     th1.join();
     th2.join();
 
 //NEW CODES END
-
-    kb.off();
+    delete [] ls;
+    kb.on();
 }

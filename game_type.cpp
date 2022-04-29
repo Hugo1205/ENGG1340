@@ -9,10 +9,25 @@
 const int Maxheight = 17;
 const int MaxWidth = 18;
 const int shapesize = 3;
-struct games{
-    char board[Maxheight][MaxWidth];
-    int score;
+class games{
+    public:
+        char (*board)[MaxWidth];
+        int score;
+        games();
+        ~games();
 };
+games::games(){
+    this->board = new char [Maxheight][MaxWidth];
+    for(int i=0;i<Maxheight;i++){
+        for(int j=0;j<MaxWidth;j++){
+            this->board[i][j] = '0';
+        }
+    }
+    this->score = 0;
+}
+games::~games(){
+    delete [] this->board;
+}
 class keyboard{ //a class for easy management of input method
     private:
         struct termios setting; // a variable storing the orginal setting
@@ -48,6 +63,8 @@ class shape{
 
 };
 void shape::SetRotation(int number){
+    if(this->board == nullptr)
+        return;
     int target = (number-this->i)%4; //calc. how many rotation needed and perform the according rotation
     this->i = number%4;
     if (target == 0)
@@ -86,6 +103,8 @@ void shape::printboard(){
 void shape::operator=(shape const &a){
     memcpy(this->board,a.board,shapesize*shapesize*sizeof(char)); //copy board
     this->i = a.i;//copy i
+    this->x = a.x;
+    this->y = a.y;
 }
 shape::shape(char p[][shapesize]){
     this->i = 0; //set i to 0
@@ -101,7 +120,8 @@ shape::shape(){
     this->y = 0;
 }
 shape::~shape() {
-    delete [] this->board; //deconstructor realise the memory holding by the board when the class is distory
+    if(this->board != nullptr)
+        delete [] this->board; //deconstructor realise the memory holding by the board when the class is distory
 }
 
 void removeMatches (games &game) {
@@ -135,14 +155,3 @@ void removeMatches (games &game) {
     game.score += 1;
 }
 
-
-games initgame(){  //initgame to initialize every games board
-    games game;
-    for(int i=0;i<Maxheight;i++){
-        for(int j=0;j<MaxWidth;j++){
-            game.board[i][j] = 0;
-        }
-    }
-    game.score = 0;
-    return game;
-}

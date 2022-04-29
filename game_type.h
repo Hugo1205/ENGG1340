@@ -8,9 +8,12 @@
 const int Maxheight = 17;
 const int MaxWidth = 18;
 const int shapesize = 3;
-struct games{
-    int board[Maxheight][MaxWidth];
-    int score;
+class games{
+    public:
+        char (*board)[MaxWidth];
+        int score;
+        games();
+        ~games();
 };
 class keyboard{//a class for easy management of input method
     private:
@@ -33,7 +36,6 @@ class shape{
         int i;
 };
 
-games initgame();
 
 shape shapeList();
 

@@ -71,9 +71,8 @@ void readRules () {
 //Function: Initiates a new board and starts the game
 
 void newGame () {
-  games game(initgame());//Since it is a new game we create a new game with type games
-  
-  //games(); //This will be the part where the game process take places.
+  games game;//Since it is a new game we create a new game with type games
+  game_main(game); //This will be the part where the game process take places.
   string fname; //after the game is done ask for the name of save file
   cin >> fname;
   WriteGameToFile(game,fname); //maybe add error dealing later
