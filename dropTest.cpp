@@ -197,11 +197,8 @@ void printMainBoard(games game) {
     }
 }
 void removeMatches (games &game) {
-    //char **temp;
-    //temp = new char [17][18];
     char tempo[17][18];
     int xIdx = Maxheight-1;
-    //int zeroLines = 0;
     for (int i = Maxheight - 1; i >= 0; --i) {
         int counter = 0;
         for (int j = 0; j < MaxWidth; ++j) {
@@ -209,19 +206,12 @@ void removeMatches (games &game) {
                 counter += 1;
             }
         }
-        //if (counter == 18) {
-            //for (int m = 0; m < MaxWidth; ++m) {
-                //tempo[xIdx][m] = '0';
-            //}
-            //zeroLines += 1;
-        //}
         if (counter < 18) {
             for (int m = 0; m < MaxWidth; ++m) {
                 tempo[xIdx][m] = game.board[i][m];
             }
             xIdx -= 1;
         }
-
     }
     while(xIdx >= 0) {
         for (int m = 0; m < MaxWidth; ++m) {
@@ -229,13 +219,12 @@ void removeMatches (games &game) {
         }
         xIdx -=1;
     }
-    //game.board = tempo;
     for (int i = 0; i < Maxheight; ++i) {
         for (int j = 0; j < MaxWidth; ++j) {
             game.board[i][j] = tempo[i][j];
         }
     }
-    //delete [][] temp;
+    game.score += 1;
 }
 
 int main(){
