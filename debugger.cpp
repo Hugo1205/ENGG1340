@@ -1,58 +1,24 @@
-#include <iostream>
-#include <string>
-#define Maxheight 17
-#define MaxWidth 18
-
-using namespace std;
-
-void printBoard (char board[][18],char shapes[][3]);
-
-int main () {
-  char board[Maxheight][MaxWidth] = {{'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
-                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
-                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
-                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
-                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
-                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
-                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
-                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
-                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
-                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
-                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
-                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
-                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
-                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
-                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
-                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'},
-                                     {'0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0'}};
-
-  char shapes[3][3] = {{'X','X','X'},{'0','X','0'},{'0','X','0'}};
-  /*for (int i = 0; i < 3; ++i) {
-    for (int j =0; j < 3; ++j) {
-      cout<<shapes[i][j];
-    }
-    cout<<endl;
-  }*/
-  printBoard(board,shapes);
-}
-
-void printBoard (char board[][18],char shapes[][3]) {
-  int xIdx = 4,yIdx = 4;
-  int xPos = 0, yPos = 0;
-  for (int i = 0; i < Maxheight; ++i) {
-    for (int j = 0; j < MaxWidth; ++j) {
-      if ((i == yIdx && j == xIdx)||(i == yIdx && j == xIdx+1)||(i == yIdx && j == xIdx+2)||(i == yIdx+1 && j == xIdx)||(i == yIdx+1 && j == xIdx+1)||(i == yIdx+1 && j == xIdx+2)||(i == yIdx+2 && j == xIdx)||(i == yIdx+2 && j == xIdx+1)||(i == yIdx+2 && j == xIdx+2)){
-        cout<<shapes[yPos][xPos];
-        xPos+=1;
-        if (xPos>2) {
-          yPos+=1;
-          xPos=0;
+void shapeToBoard(games &game, shape shapeTest) {   //to be used to add the shape into the main board
+  int xIdx = 0, yIdx = 0;
+  for (int s1 = 0; s1 < Maxheight;++s1) {
+    for (int s2 = 0; s2 < MaxWidth; ++s2) {
+      if ((s1 == shapetest.y && s2 == shapetest.x) || (s1 == shapetest.y && s2 == shapetest.x+1) || (s1 == shapetest.y && s2 == shapetest.x+2) || (s1 == shapetest.y+1 && s2 == shapetest.x) || (s1 == shapetest.y+1 && s2 == shapetest.x+1) || (s1 == shapetest.y+1 && s2 == shapetest.x+2) || (s1 == shapetest.y+2 && s2 == shapetest.x) || (s1 == shapetest.y+2 && s2 == shapetest.x+1) || (s1 == shapetest.y+2 && s2 == shapetest.x+2)) {
+        if(shapetest.board[yIdx][xIdx] != '0'){
+          game.board[s1][s2] = shapetest.board[yIdx][xIdx];    //FIX IN MAIN
+        }
+        //else {
+          //cout<<game.board[s1][s2];
+        //}
+        xIdx+=1;
+        if (xIdx>2) {
+          yIdx+=1;
+          xIdx=0;
         }
       }
-      else{
-        cout<<board[i][j];
-      }
+      //else {
+        //cout<<game.board[s1][s2];
+      //}
     }
-    cout<<endl;
+    //cout<<endl;
   }
 }
