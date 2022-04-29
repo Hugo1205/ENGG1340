@@ -77,7 +77,7 @@ void moveIntake(int &flag,shape &shapetest){
     this_thread::sleep_for( chrono::duration<int, std::milli>( 100 ) ); //sleep();
     while (flag){ //for ever loop
         c = getchar(); //input
-        c - tolower(c); //to make it work for both upper and lower cases
+        c = tolower(c); //to make it work for both upper and lower cases
         if ('d'==c && shapetest.x != 15)
             shapetest.x+=1;
         else if ('a'== c && shapetest.x != 0)
