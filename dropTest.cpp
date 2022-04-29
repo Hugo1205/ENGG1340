@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <termios.h> //get more info tmr
 #include <cstring>
+#include <cctype>
 #define Maxheight 17
 #define MaxWidth 18
 #define shapesize 3
@@ -114,6 +115,7 @@ void moveIntake(int &flag,shape &shapetest){
     this_thread::sleep_for( chrono::duration<int, std::milli>( 100 ) ); //sleep();
     while (flag){ //for ever loop
         c = getchar(); //input
+        c = tolower(c);
         if ('d'==c && shapetest.x != 15)
             shapetest.x+=1;
         else if ('a'== c && shapetest.x != 0)
@@ -132,11 +134,17 @@ void moveIntake(int &flag,shape &shapetest){
 
 void boardPrinter(int &flag,shape &shapetest,games game){
     while (flag){ //for ever loop
+        //for(int i=0;i<6;i++){
             int xIdx = 0, yIdx = 0;
             for (int s1 = 0; s1 < Maxheight;++s1) {
                 for (int s2 = 0; s2 < MaxWidth; ++s2) {
                     if ((s1 == shapetest.y && s2 == shapetest.x) || (s1 == shapetest.y && s2 == shapetest.x+1) || (s1 == shapetest.y && s2 == shapetest.x+2) || (s1 == shapetest.y+1 && s2 == shapetest.x) || (s1 == shapetest.y+1 && s2 == shapetest.x+1) || (s1 == shapetest.y+1 && s2 == shapetest.x+2) || (s1 == shapetest.y+2 && s2 == shapetest.x) || (s1 == shapetest.y+2 && s2 == shapetest.x+1) || (s1 == shapetest.y+2 && s2 == shapetest.x+2)) {
-                            cout<<shapetest.board[yIdx][xIdx];
+                            if(shapetest.board[yIdx][xIdx] != '0'){
+                                cout<<shapetest.board[yIdx][xIdx];    //FIX IN MAIN
+                            }
+                            else {
+                                cout<<game.board[s1][s2];
+                            }
                             xIdx+=1;
                             if (xIdx>2) {
                                 yIdx+=1;
@@ -151,12 +159,16 @@ void boardPrinter(int &flag,shape &shapetest,games game){
                 cout<<endl;
             }
             shapetest.y += 1;
+            //flag = coll();
             this_thread::sleep_for( chrono::duration<int, std::milli>( 1000 ) );
-        cout <<  "\033[17A";
-        for(int i=0;i<17;i++){
+        //}
+        cout<<game.score<<endl;  ///NEEDS FIXING TO PRINT SCORE
+        cout <<  "\033[18A";
+        for(int i=0;i<18;i++){
             cout << "\033[K" << endl;
         }
-        cout <<  "\033[17A";
+        cout <<  "\033[18A";
+        //cout<<"\033[2J]";
     }
 }
 int ReadGameFromFile(games &game, std::string fname){
@@ -184,6 +196,47 @@ void printMainBoard(games game) {
         cout<<endl;
     }
 }
+void removeMatches (games &game) {
+    //char **temp;
+    //temp = new char [17][18];
+    char tempo[17][18];
+    int xIdx = Maxheight-1;
+    //int zeroLines = 0;
+    for (int i = Maxheight - 1; i >= 0; --i) {
+        int counter = 0;
+        for (int j = 0; j < MaxWidth; ++j) {
+            if (game.board[i][j] == '*') {
+                counter += 1;
+            }
+        }
+        //if (counter == 18) {
+            //for (int m = 0; m < MaxWidth; ++m) {
+                //tempo[xIdx][m] = '0';
+            //}
+            //zeroLines += 1;
+        //}
+        if (counter < 18) {
+            for (int m = 0; m < MaxWidth; ++m) {
+                tempo[xIdx][m] = game.board[i][m];
+            }
+            xIdx -= 1;
+        }
+
+    }
+    while(xIdx >= 0) {
+        for (int m = 0; m < MaxWidth; ++m) {
+            tempo[xIdx][m] = '0';
+        }
+        xIdx -=1;
+    }
+    //game.board = tempo;
+    for (int i = 0; i < Maxheight; ++i) {
+        for (int j = 0; j < MaxWidth; ++j) {
+            game.board[i][j] = tempo[i][j];
+        }
+    }
+    //delete [][] temp;
+}
 
 int main(){
     keyboard kb;
@@ -193,6 +246,9 @@ int main(){
     games game;
     ReadGameFromFile(game,"gameboard.txt");
     //int a=shapetest.x;
+    printMainBoard(game);
+    cout<<endl;
+    removeMatches(game);
     int flag(1);
     //off();
     thread th1(moveIntake,ref(flag),ref(shapetest));

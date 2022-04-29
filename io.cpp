@@ -100,7 +100,12 @@ void boardPrinter(int &flag,shape &shapetest,games game){
             for (int s1 = 0; s1 < Maxheight;++s1) {
                 for (int s2 = 0; s2 < MaxWidth; ++s2) {
                     if ((s1 == shapetest.y && s2 == shapetest.x) || (s1 == shapetest.y && s2 == shapetest.x+1) || (s1 == shapetest.y && s2 == shapetest.x+2) || (s1 == shapetest.y+1 && s2 == shapetest.x) || (s1 == shapetest.y+1 && s2 == shapetest.x+1) || (s1 == shapetest.y+1 && s2 == shapetest.x+2) || (s1 == shapetest.y+2 && s2 == shapetest.x) || (s1 == shapetest.y+2 && s2 == shapetest.x+1) || (s1 == shapetest.y+2 && s2 == shapetest.x+2)) {
-                            cout<<shapetest.board[yIdx][xIdx];
+                            if(shapetest.board[yIdx][xIdx] != '0'){
+                                cout<<shapetest.board[yIdx][xIdx];    //FIX IN MAIN
+                            }
+                            else {
+                                cout<<game.board[s1][s2];
+                            }
                             xIdx+=1;
                             if (xIdx>2) {
                                 yIdx+=1;
@@ -116,11 +121,12 @@ void boardPrinter(int &flag,shape &shapetest,games game){
             }
             shapetest.y += 1;
             this_thread::sleep_for( chrono::duration<int, std::milli>( 1000 ) );
-        cout <<  "\033[17A";
-        for(int i=0;i<17;i++){
+        cout<<game.score<<endl;  ///NEEDS FIXING TO PRINT SCORE
+        cout <<  "\033[18A";
+        for(int i=0;i<18;i++){
             cout << "\033[K" << endl;
         }
-        cout <<  "\033[17A";
+        cout <<  "\033[18A";
     }
 }
 //NEW CODES END
