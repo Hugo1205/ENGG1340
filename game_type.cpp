@@ -5,6 +5,7 @@
 #include <cstring>
 #include <unistd.h>
 #include <termios.h>
+#include <cctype>
 const int Maxheight = 17;
 const int MaxWidth = 18;
 const int shapesize = 3;
@@ -102,6 +103,38 @@ shape::shape(){
 shape::~shape() {
     delete [] this->board; //deconstructor realise the memory holding by the board when the class is distory
 }
+
+void removeMatches (games &game) {
+    char tempo[17][18];
+    int xIdx = Maxheight-1;
+    for (int i = Maxheight - 1; i >= 0; --i) {
+        int counter = 0;
+        for (int j = 0; j < MaxWidth; ++j) {
+            if (game.board[i][j] == '*') {
+                counter += 1;
+            }
+        }
+        if (counter < 18) {
+            for (int m = 0; m < MaxWidth; ++m) {
+                tempo[xIdx][m] = game.board[i][m];
+            }
+            xIdx -= 1;
+        }
+    }
+    while(xIdx >= 0) {
+        for (int m = 0; m < MaxWidth; ++m) {
+            tempo[xIdx][m] = '0';
+        }
+        xIdx -=1;
+    }
+    for (int i = 0; i < Maxheight; ++i) {
+        for (int j = 0; j < MaxWidth; ++j) {
+            game.board[i][j] = tempo[i][j];
+        }
+    }
+    game.score += 1;
+}
+
 
 games initgame(){  //initgame to initialize every games board
     games game;

@@ -38,3 +38,5 @@ games initgame();
 shape shapeList();
 
 void game_main();
+
+void removeMatches (games &game);
