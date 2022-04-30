@@ -120,8 +120,8 @@ void boardPrinter(int &flag, shape & shapetest,games &game){
                 cout<<endl;
             }
         shapetest.y += 1;
-        this_thread::sleep_for( chrono::duration<int, std::milli>( 1000 ) );
         cout<<game.score<<endl;    //NEEDS FIXING
+        this_thread::sleep_for( chrono::duration<int, std::milli>( 1000 ) );
         cout <<  "\033[18A";
         for(int i=0;i<18;i++){
             cout << "\033[K" << endl;

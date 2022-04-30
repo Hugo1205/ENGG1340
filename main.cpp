@@ -8,12 +8,19 @@ void newGame ();
 void loadGame ();
 
 int main () {
-    menu ();
-    return 0;
+  menu ();
+  return 0;
 }
-
+void trim(string & s){
+  while(isspace(s[0])){
+      s = s.substr(1,s.size()-1);
+  }
+  while(isspace(s[s.size()-1])){
+      s = s.substr(0,s.size()-1);
+  }
+}
 void menu () {
-  int option;
+  string option;
   cout<<"Welcome to Tetris!"<<endl;
   cout<<"Select Option: "<<endl;
   cout<<"1. Start New Game"<<endl;
@@ -22,28 +29,30 @@ void menu () {
   cout<<"4. Exit"<<endl;
   cout<<"Enter Option Number: ";
   cin>>option;
-  while (option != 4) {
-    if (option == 1 || option == 2 || option == 3){
+  trim(option);
+  while (option != "4") {
+    if (option == "1" || option == "2" || option == "3"){
       cout<<endl;
       checkOption (option);  //function to check option selected
       cout<<endl;
     }
     cout<<"Enter Option Number: ";
     cin>>option;
+    trim(option);
   }
   if (option == 4) {
     cout<<"Game Exited."<<endl;
   }
 }
 
-void checkOption (int option) {
-  if (option == 1) {
+void checkOption (string & option) {
+  if (option == "1") {
     newGame ();
   }
-  else if (option == 2) {
+  else if (option == "2") {
     loadGame ();
   }
-  else if (option == 3) {
+  else if (option == "3") {
     readRules ();
   }
 }
