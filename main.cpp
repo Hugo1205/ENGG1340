@@ -74,23 +74,29 @@ void newGame () {
   games game;//Since it is a new game we create a new game with type games
   game_main(game); //This will be the part where the game process take places.
   string fname; //after the game is done ask for the name of save file
+  cout << "Input save file name:";
   cin >> fname;
-  WriteGameToFile(game,fname); //maybe add error dealing later
+  if(fname.find(".txt")==-1) //if the user do no add .txt we add it for them
+    fname += ".txt";
+  WriteGameToFile(game,fname);
 }
 
 //Function: Reads the board from the last game and outputs
 //          the result.
 void loadGame () {
-  ofstream fout;
-  fout.open("gameBoard.txt");
-  if (fout.fail()) {
-    cout<<"Error in loadGame file opening"<<endl;
-    exit(1);
-  }
-
-  ////CODES HERE/////
-
-  fout.close();
+  games game;
+  string fname;
+  cout << "Input load file name:";
+  cin >> fname;
+  if(fname.find(".txt")==-1)//if the user do no add .txt we add it for them
+    fname += ".txt";
+  ReadGameFromFile(game,fname);
+  game_main(game);
+  cout << "Input save file name:";
+  cin >> fname;
+  if(fname.find(".txt")==-1)//if the user do no add .txt we add it for them
+    fname += ".txt";
+  WriteGameToFile(game,fname);
 }
 // small 3*3 board as our shape
 // we first 
