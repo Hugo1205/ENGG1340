@@ -65,10 +65,11 @@ int WriteGameToFile(games &game, string fname){
     }
     for(int i=0;i<Maxheight;i++){
         for(int j=0;j<MaxWidth;j++){
-            fout << game.board[i][j] << " ";
+            fout << game.board[i][j];
         }
+        fout << endl;
     }
-    fout << game.score;
+    fout << game.score << endl;
     fout.close();
     return 0;
 }
