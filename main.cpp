@@ -1,12 +1,13 @@
 #include "io.h"
+#include <stdlib.h> //for srand and rand
+#include <time.h> //for time(NULL)
 using namespace std;
 
 void menu ();
-void checkOption (int option);
+void checkOption (string & option);
 void readRules ();
 void newGame ();
 void loadGame ();
-
 int main () {
   menu ();
   return 0;
@@ -40,7 +41,7 @@ void menu () {
     cin>>option;
     trim(option);
   }
-  if (option == 4) {
+  if (option == "4") {
     cout<<"Game Exited."<<endl;
   }
 }
@@ -81,13 +82,14 @@ void readRules () {
 
 void newGame () {
   games game;//Since it is a new game we create a new game with type games
-  game_main(game); //This will be the part where the game process take places.
-  string fname; //after the game is done ask for the name of save file
-  cout << "Input save file name:";
-  cin >> fname;
-  if(fname.find(".txt")==-1) //if the user do no add .txt we add it for them
-    fname += ".txt";
-  WriteGameToFile(game,fname);
+  if(game_main(game)){ //This will be the part where the game process take places.
+    string fname; //after the game is done ask for the name of save file
+    cout << "Input save file name:";
+    cin >> fname;
+    if(fname.find(".txt")==-1) //if the user do no add .txt we add it for them
+      fname += ".txt";
+    WriteGameToFile(game,fname);
+  }
 }
 
 //Function: Reads the board from the last game and outputs
@@ -100,12 +102,13 @@ void loadGame () {
   if(fname.find(".txt")==-1)//if the user do no add .txt we add it for them
     fname += ".txt";
   ReadGameFromFile(game,fname);
-  game_main(game);
-  cout << "Input save file name:";
-  cin >> fname;
-  if(fname.find(".txt")==-1)//if the user do no add .txt we add it for them
-    fname += ".txt";
-  WriteGameToFile(game,fname);
+  if(game_main(game)){
+    cout << "Input save file name:";
+    cin >> fname;
+    if(fname.find(".txt")==-1)//if the user do no add .txt we add it for them
+      fname += ".txt";
+    WriteGameToFile(game,fname);
+  }
 }
 // small 3*3 board as our shape
 // we first 

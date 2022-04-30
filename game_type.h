@@ -45,4 +45,7 @@ void game_main();
 
 void removeMatches (games &game);
 
+bool contact(games &game, shape &shapetest);
+
+void shapeToBoard(games &game, shape &shapeTest);
 #endif

@@ -71,7 +71,7 @@ void shape::operator=(shape const &a){
 shape::shape(char p[][shapesize]){
     this->i = 0; //set i to 0
     this->x = 0;
-    this->y = 0;
+    this->y = -2;
     this->board = new char [shapesize][shapesize]; //allocate memory for the board
     memcpy(this->board,p,shapesize*shapesize*sizeof(char)); //copy memory data to board
 }
@@ -79,7 +79,7 @@ shape::shape(){
     this->board = new char [shapesize][shapesize]; //allocate memory for the board
     this->i = 0; //set i to 0
     this->x = 0;
-    this->y = 0;
+    this->y = -2;
 }
 shape::~shape() {
     if(this->board != nullptr)
@@ -116,4 +116,31 @@ void removeMatches (games &game) {
     }
     game.score += 1;
 }
-
+bool contact(games &game, shape &shapetest){
+    if(shapetest.y+2 == Maxheight-1)
+        return true;
+    for(int i=0;i<3;i++){
+        for(int j=0;j<3;j++){
+            if (game.board[shapetest.y+i][shapetest.x+j] !='0' && game.board[shapetest.y+i+1][shapetest.x+j]!= '0')
+                return true;
+        }
+    }
+    return false;
+}
+void shapeToBoard(games &game, shape &shapetest) {   //to be used to add the shape into the main board
+  int xIdx = 0, yIdx = 0;
+  for (int s1 = 0; s1 < Maxheight;++s1) {
+    for (int s2 = 0; s2 < MaxWidth; ++s2) {
+      if ((s1 == shapetest.y && s2 == shapetest.x) || (s1 == shapetest.y && s2 == shapetest.x+1) || (s1 == shapetest.y && s2 == shapetest.x+2) || (s1 == shapetest.y+1 && s2 == shapetest.x) || (s1 == shapetest.y+1 && s2 == shapetest.x+1) || (s1 == shapetest.y+1 && s2 == shapetest.x+2) || (s1 == shapetest.y+2 && s2 == shapetest.x) || (s1 == shapetest.y+2 && s2 == shapetest.x+1) || (s1 == shapetest.y+2 && s2 == shapetest.x+2)) {
+        if(shapetest.board[yIdx][xIdx] != '0'){
+          game.board[s1][s2] = shapetest.board[yIdx][xIdx];    //FIX IN MAIN
+        }
+        xIdx+=1;
+        if (xIdx>2) {
+          yIdx+=1;
+          xIdx=0;
+        }
+      }
+    }
+  }
+}
