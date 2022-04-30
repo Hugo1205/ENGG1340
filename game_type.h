@@ -1,3 +1,5 @@
+#ifndef __Game__
+#define __Game__
 #include <iostream>
 #include <thread>
 #include <mutex>
@@ -42,3 +44,5 @@ shape shapeList();
 void game_main();
 
 void removeMatches (games &game);
+
+#endif

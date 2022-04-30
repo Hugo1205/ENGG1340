@@ -1,7 +1,5 @@
-#include <fstream>
-#include "game_type.h"
+#include "io.h"
 using namespace std;
-const int increasesize = 3;
 void growthlist(shape * &ls,int &size,int n){
     shape * new_ls = new shape[size+n]; //create a new list with added length
     if(ls != nullptr){
@@ -97,7 +95,7 @@ void moveIntake(int &flag,shape &shapetest){
     }
 }
 
-void boardPrinter(int &flag,shape & shapetest,games &game){
+void boardPrinter(int &flag, shape & shapetest,games &game){
     while (flag){ //for ever loop
             int xIdx = 0, yIdx = 0;
             for (int s1 = 0; s1 < Maxheight;++s1) {

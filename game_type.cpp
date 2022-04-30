@@ -1,21 +1,4 @@
-#include <iostream>
-#include <thread>
-#include <mutex>
-#include <string>
-#include <cstring>
-#include <unistd.h>
-#include <termios.h>
-#include <cctype>
-const int Maxheight = 17;
-const int MaxWidth = 18;
-const int shapesize = 3;
-class games{
-    public:
-        char (*board)[MaxWidth];
-        int score;
-        games();
-        ~games();
-};
+#include "game_type.h"
 games::games(){
     this->board = new char [Maxheight][MaxWidth];
     for(int i=0;i<Maxheight;i++){
@@ -28,14 +11,6 @@ games::games(){
 games::~games(){
     delete [] this->board;
 }
-class keyboard{ //a class for easy management of input method
-    private:
-        struct termios setting; // a variable storing the orginal setting
-    public:
-        void off();
-        void on();
-        keyboard();
-};
 void keyboard::off(){ //turn off echo for input and cancell the need of enter for input
     struct termios t=setting;
     t.c_lflag &= ~ICANON; //Manipulate the flag bits to do what we want it to do
@@ -49,19 +24,6 @@ void keyboard::on(){//turn the setting back to the orginal
 keyboard::keyboard(){// a constructor to init. the setting variable
     tcgetattr(STDIN_FILENO, &setting); //get the current terminal I/O structure
 }
-class shape{
-    public:
-        char (*board)[shapesize];//declare of the board
-        int x,y; //location ref to the larger game board
-        void SetRotation(int number); //rotation function of the board
-        void printboard();
-        void operator=(shape const &a);
-        shape(char p[][shapesize]); //a constructor for the shape when provided a char array
-        shape(); //empty constructor
-        ~shape();//deconstructor for the shape
-        int i;
-
-};
 void shape::SetRotation(int number){
     if(this->board == nullptr)
         return;
