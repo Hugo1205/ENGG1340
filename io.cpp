@@ -73,15 +73,19 @@ int WriteGameToFile(games &game, string fname){
     return 0;
 }
 //NEW COES START
-void moveIntake(int &flag,shape &shapetest,int &userend){
+void moveIntake(int &flag,shape &shapetest,games & game, int &userend){
     char c;
     while (!userend){ //for ever loop
         //input
         cin >> c;
         c = tolower(c); //to make it work for both upper and lower cases
-        if ('d'==c && shapetest.x != 15)
+        if ('d'==c && shapetest.x != 15){
+            for(int i=0;i<3;i++){
+                if(game.board[shapetest.y+i][shapetest.x+1] != '0')
+                    return;
+            }
             shapetest.x+=1;
-        else if ('a'== c && shapetest.x != 0)
+        }else if ('a'== c && shapetest.x != 0)
             shapetest.x-=1;
         else if ('w' == c) {
             shapetest.SetRotation(shapetest.i+1);
@@ -99,6 +103,7 @@ void moveIntake(int &flag,shape &shapetest,int &userend){
 void boardPrinter(int &flag, shape & shapetest,games &game,int &failend,int &userend){
     while (!userend){ //for ever loop
         while(flag){
+            while(mut.try_lock());
             int xIdx = 0, yIdx = 0;
             for (int s1 = 0; s1 < Maxheight;++s1) {
                 for (int s2 = 0; s2 < MaxWidth; ++s2) {
@@ -123,7 +128,9 @@ void boardPrinter(int &flag, shape & shapetest,games &game,int &failend,int &use
             }
             shapetest.y += 1;
             cout<<game.score<<endl;
-            this_thread::sleep_for(chrono::duration<int, std::milli>( 1000 ) );
+            mut.unlock();
+            this_thread::sleep_for(chrono::duration<int, std::milli>( 500 ) );
+            while(mut.try_lock());
             cout <<  "\033[18A";
             for(int i=0;i<18;i++){
                 cout << "\033[K" << endl;
@@ -139,8 +146,6 @@ void boardPrinter(int &flag, shape & shapetest,games &game,int &failend,int &use
                 flag = 0;
             }
         }
-        this_thread::sleep_for(chrono::duration<int, std::milli>(10) );
-        while (mut.try_lock());
         mut.unlock();
     }
 }
@@ -173,7 +178,7 @@ int game_main(games &game){
     while (flag){
         shape temp;
         temp = ls[rand()%len];
-        thread th1(moveIntake,ref(flag),ref(temp),ref(userend));
+        thread th1(moveIntake,ref(flag),ref(temp),ref(game),ref(userend));
         thread th2(boardPrinter,ref(flag),ref(temp),ref(game),ref(failend),ref(userend));
         thread th3(setNewShape,ref(temp),ref(ls),ref(len),ref(flag),ref(userend));
         th1.join();
