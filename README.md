@@ -11,7 +11,7 @@
   * Github account: wasiflatifhussain
             
 
-##Description and Game Information:
+## Description and Game Information:
 Game Name
            <p style="text-align: center;"><ins>**######  Tetris  ######**</ins></p>
            
