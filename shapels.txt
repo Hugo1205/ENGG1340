@@ -7,10 +7,6 @@ x00
 x00
 xxx
 S
-0xx
-0xx
-000
-I
-x00
-x00
-x00
+xxx
+xxx
+xxx
