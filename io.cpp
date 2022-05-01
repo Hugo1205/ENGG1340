@@ -172,12 +172,6 @@ void boardPrinter(int &flag, shape & shapetest,games &game,int &userend, shape *
 }
 //NEW CODES END
 int game_main(games &game){
-    //NEW CODES START
-    //call the shapefuntion here to initiate shape
-    // **code here** //
-    //i used this in my previous code-
-    //char test[shapesize][shapesize] = {{'*','*','*'},{'0','*','0'},{'0','*','0'}};
-    //shape shapetest(test);
     int len;
     keyboard kb;
     shape * ls = nullptr;
@@ -198,6 +192,5 @@ int game_main(games &game){
     kb.on();
     if (userend) //if it is stop by the user
         return 0;
-//NEW CODES END
     return 1;
 }
