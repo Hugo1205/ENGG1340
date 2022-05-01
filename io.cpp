@@ -79,6 +79,7 @@ void moveIntake(int &flag,shape &shapetest,games & game, int &userend){
         //input
         cin >> c;
         c = tolower(c); //to make it work for both upper and lower cases
+        while(mut.try_lock());
         if ('d'==c && shapetest.x != 15){
             for(int i=0;i<3;i++){
                 if(game.board[shapetest.y+i][shapetest.x+1] != '0')
@@ -97,6 +98,7 @@ void moveIntake(int &flag,shape &shapetest,games & game, int &userend){
             flag = 0;
             userend = 1;
         }
+        mut.unlock();
     }
 }
 
