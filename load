@@ -8,7 +8,7 @@ void loadGame () {
     fname += ".txt";
   fin.open(fname.c_str());
   while (fin.fail()) {
-      cout<<"Enter an existing file name: "<<endl;
+      cout<<"Enter an existing file name: ";
       cin>>fname;
       if(fname.find(".txt")==-1)//if the user do no add .txt we add it for them
         fname += ".txt";
