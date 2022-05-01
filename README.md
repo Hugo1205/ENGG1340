@@ -18,11 +18,17 @@
 * We will have a menu which will act as a loading screen, allowing the player to start new game, load pre-saved game, end a game, and display rules for the game.
 * The game will have a rectangular 17 x 18 dimensional board, where, the player will have to fit randomly generated shapes, generated using rand() and srand() functions.
 The rand() and srand() functions are used to pick up the shape and orientation from a set of pre-stored shapes.
-#### Note that, the board is represented by 0's and any shape in the board is represented by x's
-The target of the player is to prevent a single column of tetris blocks from reaching the top edge of the rectangular border board.
-When the player successfully fits the tetris blocks in such a way that the blocks all connect to form a single non-empty tetris block row, that row gets eliminated out, and all the remainding rows drop down by one block.
-When the player successfully fits the tetris blocks in such a way that a horizontal row x's are formed at any row of the board, that row of x's are removed and replaced by a new row of 0's.
+* #### Note that, the board is represented by 0's and any shape in the board is represented by x's
+* The target of the player is to prevent a single column of tetris blocks from reaching the top edge of the rectangular border board.
+* When the player successfully fits the tetris blocks in such a way that a horizontal row x's are formed at any row of the board, that row of x's are removed and replaced by a new row of 0's.
 And the game continues on. The speed for drop of tetris blocks is kept constant for ease of player.
+
+## Compilation and execution instructions:
+To compile the program and play the game, please launch the linux terminal and enter the follow codes:
+```
+make game
+./game
+```
 
 ### Visual Representation
 ```
