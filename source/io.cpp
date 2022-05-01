@@ -17,7 +17,7 @@ int getshape(shape * &ls){
     int size(0),pos(0);//init. size and pos
     char temp; //create a temp char. for indicating begin of a shape
     ifstream fin;
-    fin.open("shapels.txt");
+    fin.open("./dependence/shapels.txt");
     if (fin.fail()){
         return -1; //if no unable to open file return -1 for error control
     }
@@ -38,6 +38,7 @@ int getshape(shape * &ls){
 
 int ReadGameFromFile(games &game, std::string fname){
     ifstream fin;
+    fname = "./saves/" + fname;
     fin.open(fname.c_str());
     if (fin.fail()){
         cout<<"Error in file opening" << endl;
@@ -57,6 +58,7 @@ int ReadGameFromFile(games &game, std::string fname){
 
 int WriteGameToFile(games &game, string fname){
     ofstream fout;
+    fname = "./saves/" + fname;
     fout.open(fname.c_str());
     if (fout.fail()){
         cout << "Error in file opening" << endl;
@@ -147,7 +149,6 @@ void boardPrinter(int &flag, shape & shapetest,games &game,int &userend,int &con
                 removeMatches(game);
                 contin = !(shapetest.y<0);
                 if(contin){
-                    flag = 0;
                     shapetest = ls[rand()%len];
                 }else{
                     cout << "game over press e to exit!" << endl;
@@ -158,14 +159,12 @@ void boardPrinter(int &flag, shape & shapetest,games &game,int &userend,int &con
                 shapetest.y += 1;
             mut.unlock();
             this_thread::sleep_for(chrono::duration<int, std::milli>( 300 ) );
+            while(!mut.try_lock());
             cout <<  "\033[18A";
             for(int i=0;i<18;i++){
                 cout << "\033[K" << endl;
             }
             cout <<  "\033[18A";
-            while(!mut.try_lock());
-            if(userend)
-                flag = contin;
             mut.unlock();
         }
     }
