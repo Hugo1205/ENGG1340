@@ -79,36 +79,33 @@ void moveIntake(int &flag,shape &shapetest,games & game, int &userend){
         //input
         cin >> c;
         c = tolower(c); //to make it work for both upper and lower cases
-        if ('d'==c && shapetest.x != 15){
-            for(int i=0;i<3;i++){
-                if(game.board[shapetest.y+i][shapetest.x+1] != '0')
-                    return;
+        while(mut.try_lock());
+        if(flag){
+            if ('d'==c && shapetest.x != 15){
+                if(shapetest.x<15){
+                    for(int i=0;i<3;i++){
+                        if(shapetest.y+i<Maxheight){
+                            if(game.board[shapetest.y+i][shapetest.x+1] != '0')
+                                return;
+                        }
+                    }
+                }
+                shapetest.x+=1;
+            }else if ('a'== c && shapetest.x != 0){
+                shapetest.x-=1;
+            }else if ('w' == c) {
+                shapetest.SetRotation(shapetest.i+1);
             }
-            while(mut.try_lock());
-            shapetest.x+=1;
-            mut.unlock();
-        }else if ('a'== c && shapetest.x != 0){
-            while(mut.try_lock());
-            shapetest.x-=1;
-            mut.unlock();
-        }else if ('w' == c) {
-            while(mut.try_lock());
-            shapetest.SetRotation(shapetest.i+1);
-            mut.unlock();
+            else if ('s' == c) {
+                shapetest.SetRotation(shapetest.i-1);
+            }
         }
-        else if ('s' == c) {
-            while(mut.try_lock());
-            shapetest.SetRotation(shapetest.i-1);
-            mut.unlock();
-        }
-        else if ('e' == c){
-            while(mut.try_lock());
+        if ('e' == c){
             flag = 0;
             userend = 1;
-            mut.unlock();
         }
-        
     }
+    mut.unlock();
 }
 
 void boardPrinter(int &flag, shape & shapetest,games &game,int &failend,int &userend){
@@ -136,25 +133,26 @@ void boardPrinter(int &flag, shape & shapetest,games &game,int &failend,int &use
                 }
                 cout<<endl;
             }
-            shapetest.y += 1;
-            cout<<game.score<<endl;
-            this_thread::sleep_for(chrono::duration<int, std::milli>( 500 ) );
+            cout<<"score: " << game.score <<endl;
             while(mut.try_lock());
             if(contact(game,shapetest)){
-                failend = (shapetest.y<0);
                 shapeToBoard(game,shapetest);
                 removeMatches(game);
+                failend = (shapetest.y<0);
+                if(shapetest.y<0){
+                    cout << "game over press e to exit!" << endl;
+                    return;
+                }
                 flag = 0;
             }
+            shapetest.y += 1;
+            mut.unlock();
+            this_thread::sleep_for(chrono::duration<int, std::milli>( 300 ) );
             cout <<  "\033[18A";
             for(int i=0;i<18;i++){
                 cout << "\033[K" << endl;
             }
             cout <<  "\033[18A";
-            if (failend){
-                cout << "game over press e to exit!";
-            }
-            mut.unlock();
         }
     }
 }
@@ -164,10 +162,12 @@ void setNewShape(shape & shapetest,shape * &ls,int len, int &flag, int &userend,
         while(flag){
             this_thread::sleep_for(chrono::duration<int, std::milli>( 1 ) );
         }
-        while (mut.try_lock());
-        shapetest = ls[rand()%len];
-        flag = !failend;
-        mut.unlock();
+        if(!failend && !userend){
+            while (mut.try_lock());
+            shapetest = ls[rand()%len];
+            flag = !failend;
+            mut.unlock();
+        }
     }
 }
 int game_main(games &game){
@@ -193,6 +193,7 @@ int game_main(games &game){
         th1.join();
         th2.join();
         th3.join();
+        
     }
     delete [] ls;
     kb.on();

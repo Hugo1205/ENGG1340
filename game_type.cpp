@@ -92,7 +92,7 @@ void removeMatches (games &game) {
     for (int i = Maxheight - 1; i >= 0; --i) {
         int counter = 0;
         for (int j = 0; j < MaxWidth; ++j) {
-            if (game.board[i][j] == '*') {
+            if (game.board[i][j] == 'x') {
                 counter += 1;
             }
         }
@@ -120,7 +120,7 @@ bool contact(games &game, shape &shapetest){
     if(shapetest.y+2 == Maxheight-1)
         return true;
     for(int i=0;i<3;i++){
-        if(shapetest.y+i>=0 && shapetest.y+i<Maxheight){
+        if(shapetest.y+i+1>=0 && shapetest.y+i+1<Maxheight){
             for(int j=0;j<3;j++){
                 if (shapetest.board[i][j] !='0' && game.board[shapetest.y+i+1][shapetest.x+j]!= '0')
                     return true;
@@ -134,7 +134,7 @@ void shapeToBoard(games &game, shape &shapetest) {   //to be used to add the sha
   for (int s1 = 0; s1 < Maxheight;++s1) {
     for (int s2 = 0; s2 < MaxWidth; ++s2) {
       if ((s1 == shapetest.y && s2 == shapetest.x) || (s1 == shapetest.y && s2 == shapetest.x+1) || (s1 == shapetest.y && s2 == shapetest.x+2) || (s1 == shapetest.y+1 && s2 == shapetest.x) || (s1 == shapetest.y+1 && s2 == shapetest.x+1) || (s1 == shapetest.y+1 && s2 == shapetest.x+2) || (s1 == shapetest.y+2 && s2 == shapetest.x) || (s1 == shapetest.y+2 && s2 == shapetest.x+1) || (s1 == shapetest.y+2 && s2 == shapetest.x+2)) {
-        if(shapetest.board[yIdx][xIdx] != '0'){
+        if(shapetest.board[yIdx][xIdx] != '0' && game.board[s1][s2]=='0'){
           game.board[s1][s2] = shapetest.board[yIdx][xIdx];    //FIX IN MAIN
         }
         xIdx+=1;
