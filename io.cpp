@@ -147,7 +147,6 @@ void boardPrinter(int &flag, shape & shapetest,games &game,int &userend,int &con
                 removeMatches(game);
                 contin = !(shapetest.y<0);
                 if(contin){
-                    flag = 0;
                     shapetest = ls[rand()%len];
                 }else{
                     cout << "game over press e to exit!" << endl;
@@ -158,14 +157,12 @@ void boardPrinter(int &flag, shape & shapetest,games &game,int &userend,int &con
                 shapetest.y += 1;
             mut.unlock();
             this_thread::sleep_for(chrono::duration<int, std::milli>( 300 ) );
+            while(!mut.try_lock());
             cout <<  "\033[18A";
             for(int i=0;i<18;i++){
                 cout << "\033[K" << endl;
             }
             cout <<  "\033[18A";
-            while(!mut.try_lock());
-            if(userend)
-                flag = contin;
             mut.unlock();
         }
     }
