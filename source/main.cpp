@@ -76,7 +76,7 @@ void readRules () {
 
 
 //@hugo= FEEL FREE to make edits in the codes below.
-// i am unsure what steps you want here so i just initiated fstreams 
+// i am unsure what steps you want here so i just initiated fstreams
 
 //Function: Initiates a new board and starts the game
 
@@ -99,6 +99,20 @@ void loadGame () {
   string fname;
   cout << "Input load file name:";
   cin >> fname;
+  ifstream fin;
+  if(fname.find(".txt")==-1)//if the user do no add .txt we add it for them
+    fname += ".txt";
+  fin.open(fname.c_str());
+  while (fin.fail()) {
+      cout<<"Enter an existing file name: ";
+      cin>>fname;
+      if(fname.find(".txt")==-1)//if the user do no add .txt we add it for them
+        fname += ".txt";
+      fin.open(fname.c_str());
+  }
+  //cout<<"outside while"<<fname<<endl;
+  fin.close();
+  //cout<<"after close"<<fname<<endl;
   if(fname.find(".txt")==-1)//if the user do no add .txt we add it for them
     fname += ".txt";
   ReadGameFromFile(game,fname);
@@ -110,13 +124,33 @@ void loadGame () {
     WriteGameToFile(game,fname);
   }
 }
+
+//Function: Reads the board from the last game and outputs
+//          the result.
+/*void loadGame () {
+  games game;
+  string fname;
+  cout << "Input load file name:";
+  cin >> fname;
+  if(fname.find(".txt")==-1)//if the user do no add .txt we add it for them
+    fname += ".txt";
+  ReadGameFromFile(game,fname);
+  if(game_main(game)){
+    cout << "Input save file name:";
+    cin >> fname;
+    if(fname.find(".txt")==-1)//if the user do no add .txt we add it for them
+      fname += ".txt";
+    WriteGameToFile(game,fname);
+  }
+}
+*/
 // small 3*3 board as our shape
-// we first 
+// we first
 
 /*
 *** *00
 0*0 *00
-0*0 *** 
+0*0 ***
 0<= ref.x <= upperbound-2
 0<= ref.y
 when ref.y > upperbound.y-2 we just print part of the fig.
@@ -137,8 +171,8 @@ function one tread:
 2 parm one flag one is val for the hor. moving
 you decrease the val if player press a
 increase if player press d
-if the player press e 
--> turn the flag to 0 which end the Games
+if the player press e
+-> turn the flag to 0 which end the games
 ignore cap look
 fucntion on the other tread:
 write the inital shape board -> write it inside the game_type.cpp -> game()
