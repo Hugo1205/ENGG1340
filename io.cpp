@@ -152,12 +152,13 @@ void boardPrinter(int &flag, shape & shapetest,games &game,int &userend, shape *
                     shapetest = ls[rand()%len];
                 }else{
                     cout << "game over press e to exit!" << endl;
+                    mut.unlock();
                     return;
                 }
             }else
                 shapetest.y += 1;
             mut.unlock();
-            this_thread::sleep_for(chrono::duration<int, std::milli>( 600 ) );
+            this_thread::sleep_for(chrono::duration<int, std::milli>( 300 ) );
             cout <<  "\033[18A";
             for(int i=0;i<18;i++){
                 cout << "\033[K" << endl;
