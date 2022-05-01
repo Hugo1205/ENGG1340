@@ -122,14 +122,19 @@ void BoardPrinter(int &flag, Shape & shape,Games &game,int &userend,int &contin,
         while(flag){
             while(!mut.try_lock());
             int xIdx = 0, yIdx = 0;
+            for (int i=0;i<MaxWidth+2;i++){
+                cout << "-";
+            }
+            cout << endl;
             for (int s1 = 0; s1 < Maxheight;++s1) {
+                cout << "|";
                 for (int s2 = 0; s2 < MaxWidth; ++s2) {
                     if ((s1 == shape.y && s2 == shape.x) || (s1 == shape.y && s2 == shape.x+1) || (s1 == shape.y && s2 == shape.x+2) || (s1 == shape.y+1 && s2 == shape.x) || (s1 == shape.y+1 && s2 == shape.x+1) || (s1 == shape.y+1 && s2 == shape.x+2) || (s1 == shape.y+2 && s2 == shape.x) || (s1 == shape.y+2 && s2 == shape.x+1) || (s1 == shape.y+2 && s2 == shape.x+2)) {
                         if(shape.board[yIdx][xIdx] != '0'){
                             cout<<shape.board[yIdx][xIdx];    //FIX IN MAIN
                         }
                         else {
-                            cout<<game.board[s1][s2];
+                            cout<< " ";
                         }
                         xIdx+=1;
                         if (xIdx>2) {
@@ -138,11 +143,18 @@ void BoardPrinter(int &flag, Shape & shape,Games &game,int &userend,int &contin,
                         }
                         }
                         else {
-                            cout<<game.board[s1][s2];
+                            if(game.board[s1][s2] != '0')
+                                cout << game.board[s1][s2];
+                            else
+                                cout << " ";
                         }
                 }
-                cout<<endl;
+                cout << "|" <<endl;
             }
+            for (int i=0;i<MaxWidth+2;i++){
+                cout << "-";
+            }
+            cout << endl;
             cout<<"score: " << game.score <<endl;
             if(Contact(game,shape)){
                 ShapeToBoard(game,shape);
@@ -160,11 +172,11 @@ void BoardPrinter(int &flag, Shape & shape,Games &game,int &userend,int &contin,
             mut.unlock();
             this_thread::sleep_for(chrono::duration<int, std::milli>( 300 ) );
             while(!mut.try_lock());
-            cout <<  "\033[18A";
-            for(int i=0;i<18;i++){
+            cout <<  "\033[20A";
+            for(int i=0;i<20;i++){
                 cout << "\033[K" << endl;
             }
-            cout <<  "\033[18A";
+            cout <<  "\033[20A";
             mut.unlock();
         }
     }
