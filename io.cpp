@@ -115,12 +115,11 @@ void moveIntake(int &flag,shape &shapetest,games & game, int &userend){
     }
 }
 
-void boardPrinter(int &flag, shape & shapetest,games &game,int &userend, shape * &ls, int &len){
+void boardPrinter(int &flag, shape & shapetest,games &game,int &userend,int &contin, shape * &ls, int &len){
     while (userend){ //for ever loop
         while(flag){
             while(!mut.try_lock());
             int xIdx = 0, yIdx = 0;
-            int failend(1);
             for (int s1 = 0; s1 < Maxheight;++s1) {
                 for (int s2 = 0; s2 < MaxWidth; ++s2) {
                     if ((s1 == shapetest.y && s2 == shapetest.x) || (s1 == shapetest.y && s2 == shapetest.x+1) || (s1 == shapetest.y && s2 == shapetest.x+2) || (s1 == shapetest.y+1 && s2 == shapetest.x) || (s1 == shapetest.y+1 && s2 == shapetest.x+1) || (s1 == shapetest.y+1 && s2 == shapetest.x+2) || (s1 == shapetest.y+2 && s2 == shapetest.x) || (s1 == shapetest.y+2 && s2 == shapetest.x+1) || (s1 == shapetest.y+2 && s2 == shapetest.x+2)) {
@@ -146,18 +145,19 @@ void boardPrinter(int &flag, shape & shapetest,games &game,int &userend, shape *
             if(contact(game,shapetest)){
                 shapeToBoard(game,shapetest);
                 removeMatches(game);
-                failend = !(shapetest.y<0);
-                if(failend){
+                contin = !(shapetest.y<0);
+                if(contin){
                     flag = 0;
                     shapetest = ls[rand()%len];
                 }else{
                     cout << "game over press e to exit!" << endl;
+                    mut.unlock();
                     return;
                 }
             }else
                 shapetest.y += 1;
             mut.unlock();
-            this_thread::sleep_for(chrono::duration<int, std::milli>( 600 ) );
+            this_thread::sleep_for(chrono::duration<int, std::milli>( 300 ) );
             cout <<  "\033[18A";
             for(int i=0;i<18;i++){
                 cout << "\033[K" << endl;
@@ -165,7 +165,7 @@ void boardPrinter(int &flag, shape & shapetest,games &game,int &userend, shape *
             cout <<  "\033[18A";
             while(!mut.try_lock());
             if(userend)
-                flag = failend;
+                flag = contin;
             mut.unlock();
         }
     }
@@ -178,19 +178,19 @@ int game_main(games &game){
     srand(time(NULL));
     kb.off();
     len = getshape(ls);
-    int flag(1),userend(1);
+    int flag(1),userend(1),contin(1);
     while (flag){
         shape temp;
         temp = ls[rand()%len];
         thread th1(moveIntake,ref(flag),ref(temp),ref(game),ref(userend));
-        thread th2(boardPrinter,ref(flag),ref(temp),ref(game),ref(userend),ref(ls),ref(len));
+        thread th2(boardPrinter,ref(flag),ref(temp),ref(game),ref(userend),ref(contin),ref(ls),ref(len));
         th1.join();
         th2.join();
         
     }
     delete [] ls;
     kb.on();
-    if (userend) //if it is stop by the user
-        return 0;
-    return 1;
+    if (contin) //if it is stop by the user
+        return 1;
+    return 0;
 }
