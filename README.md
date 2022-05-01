@@ -21,6 +21,7 @@ The rand() and srand() functions are used to pick up the shape and orientation f
 * #### Note that, the board is represented by 0's and any shape in the board is represented by x's
 * The target of the player is to prevent a single column of tetris blocks from reaching the top edge of the rectangular border board.
 * When the player successfully fits the tetris blocks in such a way that a horizontal row x's are formed at any row of the board, that row of x's are removed and replaced by a new row of 0's.
+* The player can use the 'w/W' or 's/S' keys to change the rotation/orientation of the shape, while the 'a/A' or 'd/D' keys can be used to move the shape left or right along the board.
 And the game continues on. The speed for drop of tetris blocks is kept constant for ease of player.
 
 ## Compilation and execution instructions:
@@ -30,7 +31,7 @@ make game
 ./game
 ```
 
-### Visual Representation
+### Visual Representation of game in play: 
 ```
 000000000000000000000000  
 0                      0     
@@ -43,9 +44,8 @@ make game
 000000000000000000000000
 ```
 This is a temporary visual representation of the game we plan to make.
-Here, the 0s represent the borders forming the board where the tetris blocks will have to be fit.
-The #s represent the tetris blocks.
-Notice that the last line near the lower edge of the board has a line/row of #s,which will mean that this row will now get eliminated and all rows will now move one row down, and the game will continue.
+Here, the 0s represent the board while the x's represent any of the shape blocks falling inside the board.
+Notice that the last line at lower edge of the board has a line/row of x's,which will mean that this row will now get eliminated and all rows will now move one row down, and the game will continue.
 
 ###Game Lose Condition:
 ```
@@ -59,15 +59,15 @@ Notice that the last line near the lower edge of the board has a line/row of #s,
 0  #         ##########0
 000000000000000000000000
 ```
-If the player ends up having a single column of #s(tetris blocks) spanning from the lower edge of the board to the upper edge of the board, this will cause the player to lose the game. 
+If the player ends up having a single column of x's(tetris blocks) spanning from the lower edge of the board to the upper edge of the board, this will cause the player to lose the game. 
 
 ### Features and implementation of the coding requirements:
-1. Generation of random game sets or events: 
+#### 1. Generation of random game sets or events: 
    - The tetris block is randomly generated from a pre-made set which will contain all the shapes which can be generated to be used by the player during
 a single game of tetris. Each time, a shape will be picked out of the set randomly, along with a random orientation, and the player has to fit the 
 block into the rectangular n x m board.
 
-1. Data Structures for storing game status:
+#### 2. Data Structures usage:
    - Data strucutres used for representing the game board status. 
    Two-dimensional arrays used to represent x-y coordinates.
    Data structures for controlling tetris blocks(three dimensional arrays represenitng shapes, orientations and speed).
