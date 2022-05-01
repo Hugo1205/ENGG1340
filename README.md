@@ -18,7 +18,7 @@
 * We will have a menu which will act as a loading screen, allowing the player to start new game, load pre-saved game, end a game, and display rules for the game.
 * The game will have a rectangular 17 x 18 dimensional board, where, the player will have to fit randomly generated shapes, generated using rand() and srand() functions.
 The rand() and srand() functions are used to pick up the shape and orientation from a set of pre-stored shapes.
-* #### Note that, the board is represented by 0's and any shape in the board is represented by x's
+#### Note that, the board is represented by 0's and any shape in the board is represented by x's
 * The target of the player is to prevent a single column of tetris blocks from reaching the top edge of the rectangular border board.
 * When the player successfully fits the tetris blocks in such a way that a horizontal row x's are formed at any row of the board, that row of x's are removed and replaced by a new row of 0's.
 * The player can use the 'w/W' or 's/S' keys to change the rotation/orientation of the shape, while the 'a/A' or 'd/D' keys can be used to move the shape left or right along the board.
@@ -61,9 +61,9 @@ Notice that the last line at lower edge of the board has a line/row of x's,which
 ```
 If the player ends up having a single column of x's(tetris blocks) spanning from the lower edge of the board to the upper edge of the board, this will cause the player to lose the game. 
 
-### Features and implementation of the coding requirements:
-#### 1. Generation of random game sets or events: 
-   - The tetris block is randomly generated from a pre-made set which will contain all the shapes which can be generated to be used by the player during
+## Features and implementation of the coding requirements:
+### 1. Generation of random game sets or events: 
+   * The tetris block is randomly generated from a pre-made set which will contain all the shapes which can be generated to be used by the player during
 a single game of tetris. Each time, a shape will be picked out of the set randomly, along with a random orientation, and the player has to fit the 
 block into the rectangular n x m board.
 
