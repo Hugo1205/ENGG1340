@@ -10,42 +10,36 @@
 const int Maxheight = 17;
 const int MaxWidth = 18;
 const int shapesize = 3;
-class games{
+class Games{
     public:
         char (*board)[MaxWidth];
         int score;
-        games();
-        ~games();
+        Games();
+        ~Games();
 };
-class keyboard{//a class for easy management of input method
+class Keyboard{//a class for easy management of input method
     private:
         struct termios setting;// a variable storing the orginal setting
     public:
         void off();//turn off echo for input and cancell the need of enter for input
         void on();//turn the setting back to the orginal
-        keyboard();// a constructor to init. the setting variable
+        Keyboard();// a constructor to init. the setting variable
 };
-class shape{
+class Shape{
     public:
         char (*board)[shapesize]; // a pointer to a 2D array that represent the board
         int x,y; //location ref to the larger game board
         void SetRotation(int number); //rotation function of the board
-        void printboard();//print the board
-        void operator=(shape const &a); //operator = when dealing with shape
-        shape(char p[][shapesize]); //a constructor for the shape when provided a char array
-        shape(); //empty constructor
-        ~shape();//deconstructor for the shape
+        void PrintBoard();//print the board
+        void operator=(Shape const &a); //operator = when dealing with shape
+        Shape(char p[][shapesize]); //a constructor for the shape when provided a char array
+        Shape(); //empty constructor
+        ~Shape();//deconstructor for the shape
         int i;
 };
 
-
-shape shapeList();
-
-void game_main();
-
-void removeMatches (games &game);
-
-bool contact(games &game, shape &shapetest);
-
-void shapeToBoard(games &game, shape &shapeTest);
+void RemoveMatches (Games &game);
+bool Contact(Games &game, Shape &shape);
+void ShapeToBoard(Games &game, Shape &shape);
+int GameMain(Games &game);
 #endif
