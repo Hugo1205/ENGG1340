@@ -71,7 +71,7 @@ void shape::operator=(shape const &a){
 shape::shape(char p[][shapesize]){
     this->i = 0; //set i to 0
     this->x = 0;
-    this->y = 0;
+    this->y = -2;
     this->board = new char [shapesize][shapesize]; //allocate memory for the board
     memcpy(this->board,p,shapesize*shapesize*sizeof(char)); //copy memory data to board
 }
@@ -79,7 +79,7 @@ shape::shape(){
     this->board = new char [shapesize][shapesize]; //allocate memory for the board
     this->i = 0; //set i to 0
     this->x = 0;
-    this->y = 0;
+    this->y = -2;
 }
 shape::~shape() {
     if(this->board != nullptr)
