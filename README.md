@@ -12,8 +12,8 @@
             
 
 ## Description and Game Information:
-# Game Name
-           <p style="text-align: center;"><ins>**######  Tetris  ######**</ins></p>
+### Game Name
+# Tetris
            
 We will have a menu which will act as a loading screen, allowing the player to start new game, load pre-saved game, end a game, and the rules for the game.
 The game will have a rectangular n x m dimensional board, where, the player will have to fit randomly generated shapes, generated using rand() and srand() functions.
