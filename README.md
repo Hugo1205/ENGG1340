@@ -12,7 +12,7 @@
             
 
 ## Description and Game Information:
-Game Name
+# Game Name
            <p style="text-align: center;"><ins>**######  Tetris  ######**</ins></p>
            
 We will have a menu which will act as a loading screen, allowing the player to start new game, load pre-saved game, end a game, and the rules for the game.
