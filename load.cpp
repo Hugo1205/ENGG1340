@@ -3,16 +3,22 @@ void loadGame () {
   string fname;
   cout << "Input load file name:";
   cin >> fname;
+  string temp = fname;
   ifstream fin;
-  if(fname.find(".txt")==-1)//if the user do no add .txt we add it for them
-    fname += ".txt";
-  fin.open(fname.c_str());
+  if(temp.find(".txt")==-1)//if the user do no add .txt we add it for them
+    temp += ".txt";
+  if(temp.find("./saves/")==-1)
+    temp = "./saves/" + temp;
+  fin.open(temp.c_str());
   while (fin.fail()) {
       cout<<"Enter an existing file name: ";
       cin>>fname;
-      if(fname.find(".txt")==-1)//if the user do no add .txt we add it for them
-        fname += ".txt";
-      fin.open(fname.c_str());
+      string temp = fname;
+      if(temp.find(".txt")==-1)//if the user do no add .txt we add it for them
+        temp += ".txt";
+      if(temp.find("./saves/")==-1)
+        temp = "./saves/" + temp;
+      fin.open(temp.c_str());
   }
   //cout<<"outside while"<<fname<<endl;
   fin.close();
