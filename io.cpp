@@ -75,16 +75,16 @@ int WriteGameToFile(games &game, string fname){
 //NEW COES START
 void moveIntake(int &flag,shape &shapetest,games & game, int &userend){
     char c;
-    while (!userend){ //for ever loop
+    while (userend){ //for ever loop
         //input
         cin >> c;
         c = tolower(c); //to make it work for both upper and lower cases
-        while(mut.try_lock());
-        if(flag){
+        while(!mut.try_lock());
+        if(flag && userend){
             if ('d'==c && shapetest.x != 15){
                 if(shapetest.x<15){
                     for(int i=0;i<3;i++){
-                        if(shapetest.y+i<Maxheight){
+                        if(shapetest.y+i<Maxheight && shapetest.y+i>=0){
                             if(game.board[shapetest.y+i][shapetest.x+1] != '0')
                                 return;
                         }
@@ -92,26 +92,35 @@ void moveIntake(int &flag,shape &shapetest,games & game, int &userend){
                 }
                 shapetest.x+=1;
             }else if ('a'== c && shapetest.x != 0){
+                if(shapetest.x>0){
+                    for(int i=0;i<3;i++){
+                        if(shapetest.y+i<Maxheight && shapetest.y+i>=0){
+                            if(game.board[shapetest.y+i][shapetest.x+1] != '0')
+                                return;
+                        }
+                    }
+                }
                 shapetest.x-=1;
             }else if ('w' == c) {
                 shapetest.SetRotation(shapetest.i+1);
             }
             else if ('s' == c) {
                 shapetest.SetRotation(shapetest.i-1);
+            }else if ('e' == c){
+                flag = 0;
+                userend = 0;
             }
         }
-        if ('e' == c){
-            flag = 0;
-            userend = 1;
-        }
+        mut.unlock();
     }
-    mut.unlock();
 }
 
-void boardPrinter(int &flag, shape & shapetest,games &game,int &failend,int &userend){
-    while (!userend){ //for ever loop
+void boardPrinter(int &flag, shape & shapetest,games &game,int &userend, shape * &ls, int &len){
+    while (userend){ //for ever loop
         while(flag){
+            while(!mut.try_lock());
             int xIdx = 0, yIdx = 0;
+            int failend(1);
             for (int s1 = 0; s1 < Maxheight;++s1) {
                 for (int s2 = 0; s2 < MaxWidth; ++s2) {
                     if ((s1 == shapetest.y && s2 == shapetest.x) || (s1 == shapetest.y && s2 == shapetest.x+1) || (s1 == shapetest.y && s2 == shapetest.x+2) || (s1 == shapetest.y+1 && s2 == shapetest.x) || (s1 == shapetest.y+1 && s2 == shapetest.x+1) || (s1 == shapetest.y+1 && s2 == shapetest.x+2) || (s1 == shapetest.y+2 && s2 == shapetest.x) || (s1 == shapetest.y+2 && s2 == shapetest.x+1) || (s1 == shapetest.y+2 && s2 == shapetest.x+2)) {
@@ -134,42 +143,34 @@ void boardPrinter(int &flag, shape & shapetest,games &game,int &failend,int &use
                 cout<<endl;
             }
             cout<<"score: " << game.score <<endl;
-            while(mut.try_lock());
             if(contact(game,shapetest)){
                 shapeToBoard(game,shapetest);
                 removeMatches(game);
-                failend = (shapetest.y<0);
-                if(shapetest.y<0){
+                failend = !(shapetest.y<0);
+                if(failend){
+                    flag = 0;
+                    shapetest = ls[rand()%len];
+                }else{
                     cout << "game over press e to exit!" << endl;
                     return;
                 }
-                flag = 0;
-            }
-            shapetest.y += 1;
+            }else
+                shapetest.y += 1;
             mut.unlock();
-            this_thread::sleep_for(chrono::duration<int, std::milli>( 300 ) );
+            this_thread::sleep_for(chrono::duration<int, std::milli>( 600 ) );
             cout <<  "\033[18A";
             for(int i=0;i<18;i++){
                 cout << "\033[K" << endl;
             }
             cout <<  "\033[18A";
-        }
-    }
-}
-//NEW CODES END
-void setNewShape(shape & shapetest,shape * &ls,int len, int &flag, int &userend,int &failend){
-    while(!userend){
-        while(flag){
-            this_thread::sleep_for(chrono::duration<int, std::milli>( 1 ) );
-        }
-        if(!failend && !userend){
-            while (mut.try_lock());
-            shapetest = ls[rand()%len];
-            flag = !failend;
+            while(!mut.try_lock());
+            if(userend)
+                flag = failend;
             mut.unlock();
         }
     }
 }
+//NEW CODES END
 int game_main(games &game){
     //NEW CODES START
     //call the shapefuntion here to initiate shape
@@ -183,21 +184,19 @@ int game_main(games &game){
     srand(time(NULL));
     kb.off();
     len = getshape(ls);
-    int flag(1),failend(0),userend(0);
+    int flag(1),userend(1);
     while (flag){
         shape temp;
         temp = ls[rand()%len];
         thread th1(moveIntake,ref(flag),ref(temp),ref(game),ref(userend));
-        thread th2(boardPrinter,ref(flag),ref(temp),ref(game),ref(failend),ref(userend));
-        thread th3(setNewShape,ref(temp),ref(ls),ref(len),ref(flag),ref(userend),ref(failend));
+        thread th2(boardPrinter,ref(flag),ref(temp),ref(game),ref(userend),ref(ls),ref(len));
         th1.join();
         th2.join();
-        th3.join();
         
     }
     delete [] ls;
     kb.on();
-    if (failend) //if it is stop by failend
+    if (userend) //if it is stop by the user
         return 0;
 //NEW CODES END
     return 1;

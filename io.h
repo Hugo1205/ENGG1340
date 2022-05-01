@@ -10,7 +10,6 @@ int getshape(shape *&ls);
 int ReadGameFromFile(games &game, std::string fname); //return 1 if error occurs else 0
 int WriteGameToFile(games &game, std::string fname); //return 1 if error occurs else 0
 void moveIntake(int &flag,shape &shapetest, games &game, int &userend);
-void boardPrinter(int &flag,shape & shapetest,games &game,int &failend, int &userend);
-void setNewShape(shape & shapetest,shape * & ls,int len, int &flag, int &userend,int &failend);
+void boardPrinter(int &flag,shape & shapetest,games &game, int &userend,shape * &ls, int & len);
 int game_main(games &game);
 #endif 
