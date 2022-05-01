@@ -3,13 +3,13 @@
 #include <time.h> //for time(NULL)
 using namespace std;
 
-void menu ();
-void checkOption (string & option);
+void Menu ();
+void CheckOption (string & option);
 void readRules ();
 void newGame ();
 void loadGame ();
 int main () {
-  menu ();
+  Menu ();
   return 0;
 }
 void trim(string & s){
@@ -20,7 +20,7 @@ void trim(string & s){
       s = s.substr(0,s.size()-1);
   }
 }
-void menu () {
+void Menu () {
   string option;
   cout<<"Welcome to Tetris!"<<endl;
   cout<<"Select Option: "<<endl;
@@ -34,7 +34,7 @@ void menu () {
   while (option != "4") {
     if (option == "1" || option == "2" || option == "3"){
       cout<<endl;
-      checkOption (option);  //function to check option selected
+      CheckOption (option);  //function to check option selected
       cout<<endl;
     }
     cout<<"Enter Option Number: ";
@@ -46,7 +46,7 @@ void menu () {
   }
 }
 
-void checkOption (string & option) {
+void CheckOption (string & option) {
   if (option == "1") {
     newGame ();
   }
@@ -81,8 +81,8 @@ void readRules () {
 //Function: Initiates a new board and starts the game
 
 void newGame () {
-  games game;//Since it is a new game we create a new game with type games
-  if(game_main(game)){ //This will be the part where the game process take places.
+  Games game;//Since it is a new game we create a new game with type Games
+  if(GameMain(game)){ //This will be the part where the game process take places.
     string fname; //after the game is done ask for the name of save file
     cout << "Input save file name:";
     cin >> fname;
@@ -95,14 +95,14 @@ void newGame () {
 //Function: Reads the board from the last game and outputs
 //          the result.
 void loadGame () {
-  games game;
+  Games game;
   string fname;
   cout << "Input load file name:";
   cin >> fname;
   if(fname.find(".txt")==-1)//if the user do no add .txt we add it for them
     fname += ".txt";
   ReadGameFromFile(game,fname);
-  if(game_main(game)){
+  if(GameMain(game)){
     cout << "Input save file name:";
     cin >> fname;
     if(fname.find(".txt")==-1)//if the user do no add .txt we add it for them
@@ -138,7 +138,7 @@ function one tread:
 you decrease the val if player press a
 increase if player press d
 if the player press e 
--> turn the flag to 0 which end the games
+-> turn the flag to 0 which end the Games
 ignore cap look
 fucntion on the other tread:
 write the inital shape board -> write it inside the game_type.cpp -> game()
@@ -149,7 +149,7 @@ void h_val(int &flag,int &val) -> io.h and io.cpp
 Hugo will be doing :
 function on the other tread:
 print board and shape droping
-void printgame(int &flag,games game)
+void printgame(int &flag,Games game)
 multi tread and input setup.
 
 */
