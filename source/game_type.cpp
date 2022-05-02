@@ -87,7 +87,7 @@ Shape::~Shape() {
 }
 
 void RemoveMatches (Games &game) {
-    char tempo[17][18];
+    char tempo[Maxheight][MaxWidth];
     int xIdx = Maxheight-1;
     for (int i = Maxheight - 1; i >= 0; --i) {
         int counter = 0;
@@ -96,7 +96,7 @@ void RemoveMatches (Games &game) {
                 counter += 1;
             }
         }
-        if (counter < 18) {
+        if (counter < MaxWidth) {
             for (int m = 0; m < MaxWidth; ++m) {
                 tempo[xIdx][m] = game.board[i][m];
             }
