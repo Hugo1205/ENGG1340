@@ -114,6 +114,8 @@ void MoveInTake(int &flag,Shape &shape,Games & game, int &userend){
             }
         }
         mut.unlock();
+        cin.clear();
+        cin.ignore(cin.rdbuf()->in_avail());
     }
 }
 
@@ -121,7 +123,6 @@ void BoardPrinter(int &flag, Shape & shape,Games &game,int &userend,int &contin,
     while (userend){ //for ever loop
         while(flag){
             while(!mut.try_lock());
-            int xIdx = 0, yIdx = 0;
             for (int i=0;i<MaxWidth+2;i++){
                 cout << "-";
             }
@@ -130,16 +131,14 @@ void BoardPrinter(int &flag, Shape & shape,Games &game,int &userend,int &contin,
                 cout << "|";
                 for (int s2 = 0; s2 < MaxWidth; ++s2) {
                     if ((s1 == shape.y && s2 == shape.x) || (s1 == shape.y && s2 == shape.x+1) || (s1 == shape.y && s2 == shape.x+2) || (s1 == shape.y+1 && s2 == shape.x) || (s1 == shape.y+1 && s2 == shape.x+1) || (s1 == shape.y+1 && s2 == shape.x+2) || (s1 == shape.y+2 && s2 == shape.x) || (s1 == shape.y+2 && s2 == shape.x+1) || (s1 == shape.y+2 && s2 == shape.x+2)) {
-                        if(shape.board[yIdx][xIdx] != '0'){
-                            cout<<shape.board[yIdx][xIdx];    //FIX IN MAIN
+                        if(shape.board[s1-shape.y][s2-shape.x] != '0'){
+                            cout<<shape.board[s1-shape.y][s2-shape.x];    //FIX IN MAIN
                         }
                         else {
-                            cout<< " ";
-                        }
-                        xIdx+=1;
-                        if (xIdx>2) {
-                            yIdx+=1;
-                            xIdx=0;
+                            if(game.board[s1][s2] != '0')
+                                cout << game.board[s1][s2];
+                            else
+                                cout << " ";
                         }
                         }
                         else {
@@ -171,12 +170,10 @@ void BoardPrinter(int &flag, Shape & shape,Games &game,int &userend,int &contin,
                 shape.y += 1;
             mut.unlock();
             this_thread::sleep_for(chrono::duration<int, std::milli>( 300 ) );
-            while(!mut.try_lock());
             for(int i=0;i<Maxheight+3;i++){ //2 for the board wall 1 for the score line
                 cout <<  "\033[1A";
                 cout << "\033[K";
             }
-            mut.unlock();
         }
     }
 }
