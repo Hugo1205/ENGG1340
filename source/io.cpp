@@ -172,11 +172,10 @@ void BoardPrinter(int &flag, Shape & shape,Games &game,int &userend,int &contin,
             mut.unlock();
             this_thread::sleep_for(chrono::duration<int, std::milli>( 300 ) );
             while(!mut.try_lock());
-            cout <<  "\033[20A";
-            for(int i=0;i<20;i++){
-                cout << "\033[K" << endl;
+            for(int i=0;i<Maxheight+3;i++){ //2 for the board wall 1 for the score line
+                cout <<  "\033[1A";
+                cout << "\033[K";
             }
-            cout <<  "\033[20A";
             mut.unlock();
         }
     }
