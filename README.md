@@ -18,7 +18,7 @@
 * We will have a menu which will act as a loading screen, allowing the player to start new game, load pre-saved game, end a game, and display rules for the game.
 * The game will have a rectangular 17 x 18 dimensional board, where, the player will have to fit randomly generated shapes, generated using rand() and srand() functions.
 The rand() and srand() functions are used to pick up the shape and orientation from a set of pre-stored shapes.
-#### Note that, the board is represented by borders made using '|' and '-' and any shape in the board is represented by x's
+<ins> **Note that, the board is represented by borders made using '|' and '-' and any shape in the board is represented by x's** </ins>
 * The target of the player is to prevent a single column of tetris blocks from reaching the top edge of the rectangular border board.
 * When the player successfully fits the tetris blocks in such a way that a horizontal row x's are formed at any row of the board, that row of x's are removed and replaced by an empty row.
 * The player can use the 'w/W' or 's/S' keys to change the rotation/orientation of the shape, while the 'a/A' or 'd/D' keys can be used to move the shape left or right along the board.
@@ -90,7 +90,8 @@ to help save memory and manage the data better.
    * Furthermore, the array is grown whenever needed using a GrowthList() function whenever needed.
 
 ### 4. File input/output (e.g. for loading/saving game status)
-   * A .txt file is used to store all the shapes used by the program. The program reads shapes out of this file and places it in a dynamic array to be used by the game.
+
+  * A .txt file is used to store all the shapes used by the program. The program reads shapes out of this file and places it in a dynamic array to be used by the game.
    * The data of a played game is stored in a .txt file when the player decided to save the game data. This file is saved in the "saves" directory and can be accessed by the user to load this game again and continue playing. This .txt file will store both the game board as well as the score of the user for that game.
    * At the beginning of the game, if the player decided to play a new game, then a new game begins and the shape storing file, shapels.txt is used to take in shapes. The board is generated in game, and a series of functions are used to make the moves and store the moves into the board. If the user decided to stop at any time, then the player gets to save this game with any name. Then the data is stored into a .txt file with that name and stored in the "saves" directory, available for the user to access later on.
    * If instead the player decided to start with a saved game, then they have to enter name of the gamefile they want to load. Then the text gamefile as well as the shapels.txt are used as input files using ifstream and the process of game saving, etc remain similar to that used for a new game.
@@ -103,6 +104,5 @@ to help save memory and manage the data better.
       - io.cpp simply acts as a pathway to take in input from the gametype.cpp and use it to print the materials on the terminal and handle all user moves and sends these back to the gametype.cpp to be saved into the board and to continue the game.
 
 ### Non-Standard C/C++ Libraries:
-  * #include <unistd.h>: Used to implement the sleep and unsleep functions in the game when using it on linux operating system.
-  * #include <termios.h>:
+  * unistd.h and termios.h used to disable the echo of keyboard input and the end the press enter during input
 
