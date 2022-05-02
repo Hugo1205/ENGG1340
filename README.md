@@ -18,9 +18,9 @@
 * We will have a menu which will act as a loading screen, allowing the player to start new game, load pre-saved game, end a game, and display rules for the game.
 * The game will have a rectangular 17 x 18 dimensional board, where, the player will have to fit randomly generated shapes, generated using rand() and srand() functions.
 The rand() and srand() functions are used to pick up the shape and orientation from a set of pre-stored shapes.
-#### Note that, the board is represented by 0's and any shape in the board is represented by x's
+#### Note that, the board is represented by borders made using '|' and '-' and any shape in the board is represented by x's
 * The target of the player is to prevent a single column of tetris blocks from reaching the top edge of the rectangular border board.
-* When the player successfully fits the tetris blocks in such a way that a horizontal row x's are formed at any row of the board, that row of x's are removed and replaced by a new row of 0's.
+* When the player successfully fits the tetris blocks in such a way that a horizontal row x's are formed at any row of the board, that row of x's are removed and replaced by an empty row.
 * The player can use the 'w/W' or 's/S' keys to change the rotation/orientation of the shape, while the 'a/A' or 'd/D' keys can be used to move the shape left or right along the board.
 And the game continues on. The speed for drop of tetris blocks is kept constant for ease of player.
 
@@ -31,33 +31,41 @@ make game
 ./game
 ```
 
-### Visual Representation of game in play: 
+## Visual Representation of game in play: 
 ```
-000000000000000000000000  
-0                      0     
-0    #                 0             
-0    #                 0     
-0    #                 0
-0    #                 0
-0       ####           0
-0######################0
-000000000000000000000000
+- - - - - - - - - - - - - -      
+|  x                   x  | 
+|  x                   x  |        
+|                      x  |   
+|  x                   x  |
+|  x                   x  |
+|      xxxx            x  |
+|  x         xxxxxxxxxxx  |
+|                         |
+|  x            xxxxxxx   |
+|  xxxxxxxxx    xxxxx     |
+|xxxxxxxxxxxxxxxxxxxxxxxxx|
+- - - - - - - - - - - - - -
 ```
-This is a temporary visual representation of the game we plan to make.
+This is a visual representation of the game during play.
 Here, the 0s represent the board while the x's represent any of the shape blocks falling inside the board.
-Notice that the last line at lower edge of the board has a line/row of x's,which will mean that this row will now get eliminated and all rows will now move one row down, and the game will continue.
+Notice that the last line at lower edge of the board has a line/row of x's, which will mean that this row will now get eliminated and all rows will now move one row down, and the game will continue.
 
-###Game Lose Condition:
+#### Game Lose Condition:
 ```
-000000000000000000000000     
-0  #                   0    
-0  #                   0           
-0  #                   0     
-0  #                   0
-0  #                   0
-0  #    ####           0
-0  #         ##########0
-000000000000000000000000
+- - - - - - - - - - - - - -      
+|  x                   x  | 
+|  x                   x  |        
+|  x                   x  |   
+|  x                   x  |
+|  x                   x  |
+|  x    xxxx           x  |
+|  x         xxxxxxxxxxx  |
+|  x                      |
+|  x                      |
+|  x     xxx    xxxxx     |
+|  xxx   xxx   x  xxxx xxx|
+- - - - - - - - - - - - - -
 ```
 If the player ends up having a single column of x's(tetris blocks) spanning from the lower edge of the board to the upper edge of the board, this will cause the player to lose the game. 
 
@@ -67,21 +75,34 @@ If the player ends up having a single column of x's(tetris blocks) spanning from
 a single game of tetris. Each time, a shape will be picked out of the set randomly, along with a random orientation, and the player has to fit the 
 block into the rectangular n x m board.
 
-#### 2. Data Structures usage:
-   - Data strucutres used for representing the game board status. 
-   Two-dimensional arrays used to represent x-y coordinates.
-   Data structures for controlling tetris blocks(three dimensional arrays represenitng shapes, orientations and speed).
-   
-3. Dynamic Memory Management:
-   - Memory is allocated to storing the game data and for storing the high score for the game. We will also be allocating memory to allow the player to save
+### 2. Data Structures and tehc:
+   * The game uses structs, classes, simple arrays and dynamic arrays to store.
+   * Separate classes are made for storing the shapes and to rotate them, to store the game board and a separate class called Keyboard is used to store the keyboard keys to be used during the program. It allows the keyboard to be turned on and off when needed.
+   * Score, board,shapes are stored in data structures during game-time also.
+   * The game uses multi-threading to take continuous key inputs and print the dropping of the shapes as well as the board simultaneously.
+   * 
+### 3. Dynamic Memory Management:
+   * Memory is allocated to storing the game data and for storing the high score for the game. We will also be allocating memory to allow the player to save
 load game and load it whenever they want to play the game. To save memory, we will overwrite existing memory to save new data. Furthermore, we will also only 
 store a fixed number of shapes in a predefined array and rotate them during the game, instead of generating and storing a new shape everytime. This is likely 
 to help save memory and manage the data better.
-   
+   * We also use dynamic arrays to allocate memory for board and shapes and delete them when we need to generate new shapes.
+   * Furthermore, the array is grown whenever needed using a GrowthList() function whenever needed.
 
-4. File input/output (e.g. for loading/saving game status)
-   - .txt files used to store game status, so the player can save the game and load it back on if they want to.
-   .txt files used to save game rules and load them if player clicks the rules tab on the loading screen
+### 4. File input/output (e.g. for loading/saving game status)
+   * A .txt file is used to store all the shapes used by the program. The program reads shapes out of this file and places it in a dynamic array to be used by the game.
+   * The data of a played game is stored in a .txt file when the player decided to save the game data. This file is saved in the "saves" directory and can be accessed by the user to load this game again and continue playing. This .txt file will store both the game board as well as the score of the user for that game.
+   * At the beginning of the game, if the player decided to play a new game, then a new game begins and the shape storing file, shapels.txt is used to take in shapes. The board is generated in game, and a series of functions are used to make the moves and store the moves into the board. If the user decided to stop at any time, then the player gets to save this game with any name. Then the data is stored into a .txt file with that name and stored in the "saves" directory, available for the user to access later on.
+   * If instead the player decided to start with a saved game, then they have to enter name of the gamefile they want to load. Then the text gamefile as well as the shapels.txt are used as input files using ifstream and the process of game saving, etc remain similar to that used for a new game.
    
-5. Program codes in multiple files
-   - The I/O(input/output) and the game algorithm will be stored in separate files, and used simultaneoulsy during code execution.
+### 5. Program codes in multiple files
+   * Program is stored in three main code files named- main.cpp, gametype.cpp and io.cpp. io.h and gametype.h are header files for gametype.cpp and io.cpp.
+      - main.cpp is the main file that displays the menu, and the options to choose from including new game, load game, game rules, and exit.
+      - selecting any option in main.cpp will direct/connect to io.cpp which is mainly used to handle all inputs and outputs of the game.
+      - io.cpp will call to gametype.cpp and its header files. gametype.cpp and its heeader mainly handles all the classes for storing gameboard, game shapes and keyboard function. The rotation of the shapes in the game, turning the special keyboard function on and off where necessary, printing the shape into the board after the shape has dropped into the board, removing a full horizontal line of tetris blocks is also handled by this file.
+      - io.cpp simply acts as a pathway to take in input from the gametype.cpp and use it to print the materials on the terminal and handle all user moves and sends these back to the gametype.cpp to be saved into the board and to continue the game.
+
+### Non-Standard C/C++ Libraries:
+  * #include <unistd.h>: Used to implement the sleep and unsleep functions in the game when using it on linux operating system.
+  * #include <termios.h>:
+
