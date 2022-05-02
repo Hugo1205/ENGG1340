@@ -146,6 +146,12 @@ void ShapeToBoard(Games &game, Shape &shape) {   //to be used to add the shape i
     }
   }
 }
+
+//Function: main function that loads the keyboard function as well as initiates
+//          the functions to move shapes and print board and shape
+//Input: it takes in input of game class by reference
+//Output: it modifies the board by saving shapes to board as well as removing matches lines
+//        in the board.
 int GameMain(Games &game){
     int len;
     Keyboard kb;
@@ -161,7 +167,7 @@ int GameMain(Games &game){
         thread th2(BoardPrinter,ref(flag),ref(temp),ref(game),ref(userend),ref(contin),ref(ls),ref(len));
         th1.join();
         th2.join();
-        
+
     }
     delete [] ls;
     kb.on();
