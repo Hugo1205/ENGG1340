@@ -20,6 +20,10 @@ void trim(string & s){
       s = s.substr(0,s.size()-1);
   }
 }
+
+//Function: prints main menu and all the functions.
+//Input: Integer input determining the option the user chooses
+//Output: calls the CheckOption function to check option user selected.
 void Menu () {
   string option;
   cout<<"Welcome to Tetris!"<<endl;
@@ -46,6 +50,7 @@ void Menu () {
   }
 }
 
+//checks the option the user selected.
 void CheckOption (string & option) {
   if (option == "1") {
     newGame ();
@@ -59,6 +64,8 @@ void CheckOption (string & option) {
 }
 
 //Function: Reads the rules of the game from a file named gameRules.txt
+//Inputs the name integer input from main and outputs contents of the gameRules.txt
+//file
 void readRules () {
   ifstream fin;
   fin.open("gameRules.txt");
@@ -75,11 +82,9 @@ void readRules () {
 }
 
 
-//@hugo= FEEL FREE to make edits in the codes below.
-// i am unsure what steps you want here so i just initiated fstreams
-
-//Function: Initiates a new board and starts the game
-
+//Function: initiates a game class and calls main game to start the game
+//          when game is over, it outputs out the game data allowed to be stored in
+//          a .txt file to be stored in the ./saves/ directory.
 void newGame () {
   Games game;//Since it is a new game we create a new game with type Games
   if(GameMain(game)){ //This will be the part where the game process take places.
@@ -170,47 +175,4 @@ void loadGame () {
     WriteGameToFile(game,fname);
   }
 }
-*/
-// small 3*3 board as our shape
-// we first
-
-/*
-*** *00
-0*0 *00
-0*0 ***
-0<= ref.x <= upperbound-2
-0<= ref.y
-when ref.y > upperbound.y-2 we just print part of the fig.
-*/
-
-/*
-we check the bottom line every time the sharp drop, to see if it is attached to a block under
-check lines see any line were filled -> if any move the borad one row down and generate a new empty line at the end
-ref.y > upperbound.y-2 the play lose
-*/
-
-/*
-This week we try to print the board and do the shape dropping and moving regarding the input.
-
-Wasif will be doing:
-
-function one tread:
-2 parm one flag one is val for the hor. moving
-you decrease the val if player press a
-increase if player press d
-if the player press e
--> turn the flag to 0 which end the games
-ignore cap look
-fucntion on the other tread:
-write the inital shape board -> write it inside the game_type.cpp -> game()
-
-void h_val(int &flag,int &val) -> io.h and io.cpp
-
-
-Hugo will be doing :
-function on the other tread:
-print board and shape droping
-void printgame(int &flag,Games game)
-multi tread and input setup.
-
 */
