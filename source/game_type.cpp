@@ -11,6 +11,8 @@ Games::Games(){
 Games::~Games(){
     delete [] this->board;
 }
+//Function: this is a special function that will temporarily take over the user's keyboard and change keyboard settings
+//          so that settings are defined by this function. this function stops the keyboard is turned off and vicerversa.
 void Keyboard::off(){ //turn off echo for input and cancell the need of enter for input
     struct termios t=setting;
     t.c_lflag &= ~ICANON; //Manipulate the flag bits to do what we want it to do
@@ -24,6 +26,9 @@ void Keyboard::on(){//turn the setting back to the orginal
 Keyboard::Keyboard(){// a constructor to init. the setting variable
     tcgetattr(STDIN_FILENO, &setting); //get the current terminal I/O structure
 }
+
+//Function: rotaes the board when the function is called; it uses pointers and
+//          iterators to rotate the shapes
 void Shape::SetRotation(int number){
     if(this->board == nullptr)
         return;
@@ -62,12 +67,15 @@ void Shape::PrintBoard(){
         std::cout << std::endl;
     }
 }
+
 void Shape::operator=(Shape const &a){
     memcpy(this->board,a.board,shapesize*shapesize*sizeof(char)); //copy board
     this->i = a.i;//copy i
     this->x = a.x;
     this->y = a.y;
 }
+
+//used to allocate memory for board as well as declare x,and y coordinates for shape.
 Shape::Shape(char p[][shapesize]){
     this->i = 0; //set i to 0
     this->x = 0;
@@ -75,17 +83,24 @@ Shape::Shape(char p[][shapesize]){
     this->board = new char [shapesize][shapesize]; //allocate memory for the board
     memcpy(this->board,p,shapesize*shapesize*sizeof(char)); //copy memory data to board
 }
+
+//used to allocate memory for board as well as declare x,and y coordinates for shape.
 Shape::Shape(){
     this->board = new char [shapesize][shapesize]; //allocate memory for the board
     this->i = 0; //set i to 0
     this->x = 0;
     this->y = -2;
 }
+
+//destroys the board when releases memory
 Shape::~Shape() {
     if(this->board != nullptr)
-        delete [] this->board; //deconstructor realise the memory holding by the board when the class is distory
+        delete [] this->board; //deconstructor release the memory holding by the board when the class is destroyed
 }
 
+//Function: searches for matches inside the board. if a full horizontal line of x's form on the screen,
+//          this function looks for that line and removes that line from main board and prints remaining lines
+//          by shifting lines one line down.
 void RemoveMatches (Games &game) {
     char tempo[Maxheight][MaxWidth];
     int xIdx = Maxheight-1;
@@ -116,6 +131,10 @@ void RemoveMatches (Games &game) {
     }
     game.score += 1;
 }
+
+//Function: checks to see if the shape hits another shape or if shape reaches end-line of the board
+//Input: game and shape arrays
+//Output: finds where the shape collides/contacts
 bool Contact(Games &game, Shape &shape){
     if(shape.y+2 == Maxheight-1)
         return true;
@@ -129,6 +148,10 @@ bool Contact(Games &game, Shape &shape){
     }
     return false;
 }
+
+//Function: function used to save each shape into the board after the shape settles into the board
+//Input: takes in the shape and game board
+//Output: stores the shape in exact coordinates of the game board as shown to user on screen
 void ShapeToBoard(Games &game, Shape &shape) {   //to be used to add the shape into the main board
   int xIdx = 0, yIdx = 0;
   for (int s1 = 0; s1 < Maxheight;++s1) {
@@ -152,19 +175,21 @@ void ShapeToBoard(Games &game, Shape &shape) {   //to be used to add the shape i
 //Input: it takes in input of game class by reference
 //Output: it modifies the board by saving shapes to board as well as removing matches lines
 //        in the board.
+//Special: uses multi-threading to print the board and shape into board and move the shape around in
+//         the board
 int GameMain(Games &game){
     int len;
     Keyboard kb;
-    Shape * ls = nullptr;
-    srand(time(NULL));
+    Shape * ls = nullptr;  //dynamic array declared here
+    srand(time(NULL));   //use of random function using time parameter
     kb.off();
     len = GetShape(ls);
     int flag(1),userend(1),contin(1);
     while (flag){
         Shape temp;
         temp = ls[rand()%len];
-        thread th1(MoveInTake,ref(flag),ref(temp),ref(game),ref(userend));
-        thread th2(BoardPrinter,ref(flag),ref(temp),ref(game),ref(userend),ref(contin),ref(ls),ref(len));
+        thread th1(MoveInTake,ref(flag),ref(temp),ref(game),ref(userend));  //thread to handle the moves given by key movements of a,s,d,w,e
+        thread th2(BoardPrinter,ref(flag),ref(temp),ref(game),ref(userend),ref(contin),ref(ls),ref(len)); //thread to print the board and erase previous boards continuously
         th1.join();
         th2.join();
 
