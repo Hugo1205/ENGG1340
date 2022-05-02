@@ -1,5 +1,5 @@
 #include "io.h"
-mutex mut;
+mutex mut; //used to make sure the two thread will not read/write at the same time
 using namespace std;
 
 //Function: grows the list when the size exceeds maximum size of current list
@@ -95,7 +95,7 @@ void MoveInTake(int &flag,Shape &shape,Games & game, int &userend){
         //input
         cin >> c;
         c = tolower(c); //to make it work for both upper and lower cases
-        while(!mut.try_lock());
+        while(!mut.try_lock()); //try to lock the mut lock so that this thread is safe to operate on the variables
         if(flag && userend){
             if ('d'==c && shape.x != 15){  //if player presses 'd' key, this loop runs
                 if(shape.x<15){
@@ -127,7 +127,7 @@ void MoveInTake(int &flag,Shape &shape,Games & game, int &userend){
                 userend = 0;
             }
         }
-        mut.unlock();
+        mut.unlock(); //unlock the mut lock
         cin.clear();
         cin.ignore(cin.rdbuf()->in_avail());
     }
@@ -138,7 +138,7 @@ void MoveInTake(int &flag,Shape &shape,Games & game, int &userend){
 void BoardPrinter(int &flag, Shape & shape,Games &game,int &userend,int &contin, Shape * &ls, int &len){
     while (userend){ //for ever loop
         while(flag){
-            while(!mut.try_lock());
+            while(!mut.try_lock()); //try to lock the mut lock so that this thread is safe to operate on the variables
             for (int i=0;i<MaxWidth+2;i++){  //to print the board outline
                 cout << "-";
             }
@@ -186,7 +186,7 @@ void BoardPrinter(int &flag, Shape & shape,Games &game,int &userend,int &contin,
                 }
             }else
                 shape.y += 1;
-            mut.unlock();
+            mut.unlock();//unlock the mut lock
             this_thread::sleep_for(chrono::duration<int, std::milli>( 300 ) );    //controlling the droppping speed of the shapes into the board
             for(int i=0;i<Maxheight+3;i++){ //2 for the board wall 1 for the score line
                 cout <<  "\033[1A";
