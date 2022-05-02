@@ -1,6 +1,8 @@
 #include "io.h"
 mutex mut;
 using namespace std;
+
+//Function: grows the list when the size exceeds maximum size of current list
 void GrowthList(Shape * &ls,int &size,int n){
     Shape * new_ls = new Shape[size+n]; //create a new list with added length
     if(ls != nullptr){
@@ -13,6 +15,8 @@ void GrowthList(Shape * &ls,int &size,int n){
     size += n; // give the new size
 }
 
+//Function: gets the shape from the shapels.txt using ifstream and ofstream
+//Input: a shape class object to store the shape
 int GetShape(Shape * &ls){
     int size(0),pos(0);//init. size and pos
     char temp; //create a temp char. for indicating begin of a shape
@@ -36,6 +40,9 @@ int GetShape(Shape * &ls){
     return pos;
 }
 
+//Function: when the player wants to load an older game status, this function runs
+//Input: name of the file to be accessed and used as current game
+//Output: initiate game with this board with the score stored in this .txt file also
 int ReadGameFromFile(Games &game, std::string fname){
     ifstream fin;
     fname = "./saves/" + fname;
@@ -56,6 +63,10 @@ int ReadGameFromFile(Games &game, std::string fname){
     return 0;
 }
 
+//Function: used to store the data of the game when the player decides to save the game status
+//Input: name of the file which will be used to store the game status
+//Output: game data stored into the desired .txt file
+//        .txt file for saving game status saved in the ./saves directory
 int WriteGameToFile(Games &game, string fname){
     ofstream fout;
     fname = "./saves/" + fname;
@@ -74,7 +85,10 @@ int WriteGameToFile(Games &game, string fname){
     fout.close();
     return 0;
 }
-//NEW COES START
+
+//Function: takes in moves from the active keyboard defined in the game and use the moves to
+//          move the shape inside the board.
+//Output: sends the shape movement data to BoardPrinter function to print the move
 void MoveInTake(int &flag,Shape &shape,Games & game, int &userend){
     char c;
     while (userend){ //for ever loop
@@ -83,7 +97,7 @@ void MoveInTake(int &flag,Shape &shape,Games & game, int &userend){
         c = tolower(c); //to make it work for both upper and lower cases
         while(!mut.try_lock());
         if(flag && userend){
-            if ('d'==c && shape.x != 15){
+            if ('d'==c && shape.x != 15){  //if player presses 'd' key, this loop runs
                 if(shape.x<15){
                     for(int i=0;i<3;i++){
                         if(shape.y+i<Maxheight && shape.y+i>=0){
@@ -93,7 +107,7 @@ void MoveInTake(int &flag,Shape &shape,Games & game, int &userend){
                     }
                 }
                 shape.x+=1;
-            }else if ('a'== c && shape.x != 0){
+            }else if ('a'== c && shape.x != 0){   //if player presses 'a' key, this loop runs
                 if(shape.x>0){
                     for(int i=0;i<3;i++){
                         if(shape.y+i<Maxheight && shape.y+i>=0){
@@ -103,12 +117,12 @@ void MoveInTake(int &flag,Shape &shape,Games & game, int &userend){
                     }
                 }
                 shape.x-=1;
-            }else if ('w' == c) {
+            }else if ('w' == c) {  //if player presses 'w' key, this rotation function is called
                 shape.SetRotation(shape.i+1);
             }
             else if ('s' == c) {
                 shape.SetRotation(shape.i-1);
-            }else if ('e' == c){
+            }else if ('e' == c){   //if player presses 'e', game has to end so flag made to 0
                 flag = 0;
                 userend = 0;
             }
@@ -119,20 +133,22 @@ void MoveInTake(int &flag,Shape &shape,Games & game, int &userend){
     }
 }
 
+//Function: prints both the board and the shape at the same time on the terminal using looping.
+//          this also checks for shape collisions and when to remove matches from the board and saves shapes into board
 void BoardPrinter(int &flag, Shape & shape,Games &game,int &userend,int &contin, Shape * &ls, int &len){
     while (userend){ //for ever loop
         while(flag){
             while(!mut.try_lock());
-            for (int i=0;i<MaxWidth+2;i++){
+            for (int i=0;i<MaxWidth+2;i++){  //to print the board outline
                 cout << "-";
             }
             cout << endl;
             for (int s1 = 0; s1 < Maxheight;++s1) {
-                cout << "|";
-                for (int s2 = 0; s2 < MaxWidth; ++s2) {
+                cout << "|";  //printing board outline
+                for (int s2 = 0; s2 < MaxWidth; ++s2) {  //check if the shape coordinates exist in this iteration of the loop
                     if ((s1 == shape.y && s2 == shape.x) || (s1 == shape.y && s2 == shape.x+1) || (s1 == shape.y && s2 == shape.x+2) || (s1 == shape.y+1 && s2 == shape.x) || (s1 == shape.y+1 && s2 == shape.x+1) || (s1 == shape.y+1 && s2 == shape.x+2) || (s1 == shape.y+2 && s2 == shape.x) || (s1 == shape.y+2 && s2 == shape.x+1) || (s1 == shape.y+2 && s2 == shape.x+2)) {
-                        if(shape.board[s1-shape.y][s2-shape.x] != '0'){
-                            cout<<shape.board[s1-shape.y][s2-shape.x];    //FIX IN MAIN
+                        if(shape.board[s1-shape.y][s2-shape.x] != '0'){  //ignores all the 0s in the shape
+                            cout<<shape.board[s1-shape.y][s2-shape.x];   //prints only x's in the shape
                         }
                         else {
                             if(game.board[s1][s2] != '0')
@@ -155,9 +171,11 @@ void BoardPrinter(int &flag, Shape & shape,Games &game,int &userend,int &contin,
             }
             cout << endl;
             cout<<"score: " << game.score <<endl;
+            //checks if the shape has contacted with any of the other shapes or edges of the board and then adds shape to board
+            //also calls RemoveMatches function to remove matched line when found
             if(Contact(game,shape)){
-                ShapeToBoard(game,shape);
-                RemoveMatches(game);
+                ShapeToBoard(game,shape);   //adds shape into the board
+                RemoveMatches(game);  //removes matches from the board
                 contin = !(shape.y<0);
                 if(contin){
                     shape = ls[rand()%len];
@@ -169,7 +187,7 @@ void BoardPrinter(int &flag, Shape & shape,Games &game,int &userend,int &contin,
             }else
                 shape.y += 1;
             mut.unlock();
-            this_thread::sleep_for(chrono::duration<int, std::milli>( 300 ) );
+            this_thread::sleep_for(chrono::duration<int, std::milli>( 300 ) );    //controlling the droppping speed of the shapes into the board
             for(int i=0;i<Maxheight+3;i++){ //2 for the board wall 1 for the score line
                 cout <<  "\033[1A";
                 cout << "\033[K";
@@ -177,5 +195,3 @@ void BoardPrinter(int &flag, Shape & shape,Games &game,int &userend,int &contin,
         }
     }
 }
-//NEW CODES END
-
