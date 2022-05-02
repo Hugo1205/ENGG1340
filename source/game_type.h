@@ -7,9 +7,11 @@
 #include <cstring>
 #include <unistd.h>
 #include <termios.h>
-const int Maxheight = 17;
-const int MaxWidth = 18;
-const int shapesize = 3;
+const int Maxheight = 17;  //stores height of game board
+const int MaxWidth = 18;  //stores width of game board
+const int shapesize = 3;  //stores size of shapes in game board
+
+//class ti store the game board and score for each game played by the player
 class Games{
     public:
         char (*board)[MaxWidth];
@@ -17,6 +19,8 @@ class Games{
         Games();
         ~Games();
 };
+
+//class used to control the keyboard function to allow user to control movement of shapes in the game
 class Keyboard{//a class for easy management of input method
     private:
         struct termios setting;// a variable storing the orginal setting
@@ -25,6 +29,8 @@ class Keyboard{//a class for easy management of input method
         void on();//turn the setting back to the orginal
         Keyboard();// a constructor to init. the setting variable
 };
+
+//used to extract each shape for dropping during playing the game
 class Shape{
     public:
         char (*board)[shapesize]; // a pointer to a 2D array that represent the board
