@@ -104,5 +104,6 @@ to help save memory and manage the data better.
       - io.cpp simply acts as a pathway to take in input from the gametype.cpp and use it to print the materials on the terminal and handle all user moves and sends these back to the gametype.cpp to be saved into the board and to continue the game.
 
 ### Non-Standard C/C++ Libraries:
-  * unistd.h and termios.h used to disable the echo of keyboard input and the end the press enter during input
+  * unistd.h and termios.h used to disable the echo of keyboard input and the end the press enter during input.
+  * unistd.h is also used to access the rand() and srand() functions.
 
