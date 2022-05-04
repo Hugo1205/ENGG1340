@@ -68,7 +68,7 @@ void CheckOption (string & option) {
 //file
 void readRules () {
   ifstream fin;
-  fin.open("gameRules.txt");
+  fin.open("./dependence/gameRules.txt");
   if (fin.fail()) {
     cout<<"Error in file opening"<<endl;
     exit(1);   ///UNSURE IF TO PUT return 1 or exit(1) here!!
