@@ -187,7 +187,7 @@ void BoardPrinter(int &flag, Shape & shape,Games &game,int &userend,int &contin,
             }else
                 shape.y += 1;
             mut.unlock();//unlock the mut lock
-            this_thread::sleep_for(chrono::duration<int, std::milli>( 300 ) );    //controlling the droppping speed of the shapes into the board
+            this_thread::sleep_for(chrono::duration<int, std::milli>( 400 ) );    //controlling the droppping speed of the shapes into the board
             for(int i=0;i<Maxheight+3;i++){ //2 for the board wall 1 for the score line
                 cout <<  "\033[1A";
                 cout << "\033[K";
