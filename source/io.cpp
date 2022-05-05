@@ -180,6 +180,7 @@ void BoardPrinter(int &flag, Shape & shape,Games &game,int &userend,int &contin,
                 contin = !(shape.y<0);
                 if(contin){
                     shape = ls[rand()%len];
+                    shape.x = rand()%MaxWidth;
                 }else{
                     cout << "game over press e to exit!" << endl;
                     mut.unlock();
