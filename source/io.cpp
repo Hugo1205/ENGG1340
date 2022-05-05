@@ -26,8 +26,9 @@ int GetShape(Shape * &ls){
         return -1; //if no unable to open file return -1 for error control
     }
     while (fin >> temp){//in this loop get data from the txt to a char array then append the shape ls
-        char temp_ls[shapesize][shapesize];
+        char **temp_ls = new char* [shapesize];
         for(int i=0;i<shapesize;i++){
+            temp_ls[i] = new char [shapesize];
             for(int j=0;j<shapesize;j++){
                 fin >> temp_ls[i][j];
             }

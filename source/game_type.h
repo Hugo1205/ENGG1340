@@ -14,7 +14,7 @@ const int shapesize = 3;  //stores size of shapes in game board
 //class ti store the game board and score for each game played by the player
 class Games{
     public:
-        char (*board)[MaxWidth];
+        char **board;
         int score;
         Games();
         ~Games();
@@ -33,12 +33,12 @@ class Keyboard{//a class for easy management of input method
 //used to extract each shape for dropping during playing the game
 class Shape{
     public:
-        char (*board)[shapesize]; // a pointer to a 2D array that represent the board
+        char **board; // a pointer to a 2D array that represent the board
         int x,y; //location ref to the larger game board
         void SetRotation(int number); //rotation function of the board
         void PrintBoard();//print the board
         void operator=(Shape const &a); //operator = when dealing with shape
-        Shape(char p[][shapesize]); //a constructor for the shape when provided a char array
+        Shape(char **p); //a constructor for the shape when provided a char array
         Shape(); //empty constructor
         ~Shape();//deconstructor for the shape
         int i;
