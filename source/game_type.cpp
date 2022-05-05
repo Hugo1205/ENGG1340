@@ -1,8 +1,8 @@
 #include "io.h"
 Games::Games(){
-    this->board = new char * [Maxheight];
+    this->board = new char * [Maxheight]; //create a array of pointer
     for(int i=0;i<Maxheight;i++){
-        this->board[i] = new char [MaxWidth];
+        this->board[i] = new char [MaxWidth]; //for each pointer create an array it points to
         for(int j=0;j<MaxWidth;j++){
             this->board[i][j] = '0';
         }
@@ -11,9 +11,9 @@ Games::Games(){
 }
 Games::~Games(){
     for(int i=0;i<Maxheight;i++){
-        delete [] this->board[i];
+        delete [] this->board[i]; //delete the array the pointer pointing to
     }
-    delete [] this->board;
+    delete [] this->board; //delete the array of pointer
 }
 //Function: this is a special function that will temporarily take over the user's keyboard and change keyboard settings
 //          so that settings are defined by this function. this function stops the keyboard is turned off and vicerversa.
@@ -40,9 +40,9 @@ void Shape::SetRotation(int number){
     this->i = number%4;
     if (target == 0)
         return;
-    char **p = new char *[shapesize];
+    char **p = new char *[shapesize]; //create a array of pointer
     for(int i=0;i<shapesize;i++){
-        p[i] = new char [shapesize];
+        p[i] = new char [shapesize]; //for each pointer create an array it points to
     }
     if (target == 1){
         for(int j=0;j<shapesize;j++){
@@ -64,10 +64,10 @@ void Shape::SetRotation(int number){
         }
     }
     for(int i=0;i<shapesize;i++){
-        delete [] this->board[i];
+        delete [] this->board[i]; //delete the array the pointer pointing to
     }
-    delete [] this->board;
-    this->board = p;
+    delete [] this->board; //delete the array of pointer
+    this->board = p; //set the pointer pointing to the new array.
 }
 void Shape::PrintBoard(){
     for(int i=0;i<shapesize;i++){ //print the board
@@ -80,7 +80,7 @@ void Shape::PrintBoard(){
 
 void Shape::operator=(Shape const &a){
     for(int i=0;i<shapesize;i++){
-        memcpy(this->board[i],a.board[i],shapesize*sizeof(char)); //copy board
+        memcpy(this->board[i],a.board[i],shapesize*sizeof(char)); //copy board for each pointer
     }
     this->i = a.i;//copy i
     this->x = a.x;
@@ -97,9 +97,9 @@ Shape::Shape(char **p){
 
 //used to allocate memory for board as well as declare x,and y coordinates for shape.
 Shape::Shape(){
-    this->board = new char* [shapesize]; //allocate memory for the board
+    this->board = new char* [shapesize]; //create array of pointer
     for(int i=0;i<shapesize;i++){
-        this->board[i] = new char [shapesize];
+        this->board[i] = new char [shapesize]; // for each pointer create a array it points to
     }
     this->i = 0; //set i to 0
     this->x = 0;
@@ -109,9 +109,9 @@ Shape::Shape(){
 //destroys the board when releases memory
 Shape::~Shape() {
     for(int i=0;i<shapesize;i++){ //deconstructor release the memory holding by the board when the class is destroyed
-        delete [] this->board[i];
+        delete [] this->board[i]; //delete all the array
     }
-    delete [] this->board;
+    delete [] this->board; //delete the pointer array
 }
 
 //Function: searches for matches inside the board. if a full horizontal line of x's form on the screen,
