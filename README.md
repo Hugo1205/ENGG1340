@@ -89,6 +89,7 @@ If the player ends up having a single column of x's(tetris blocks) spanning from
    * The tetris block is randomly generated from a pre-made set which will contain all the shapes which can be generated to be used by the player during
 a single game of tetris. Each time, a shape will be picked out of the set randomly, along with a random orientation, and the player has to fit the 
 block into the rectangular n x m board. srand and rand functions are used here to achieve random shapes.
+   * rand and srand are also used to make sure that our shapes will be originated at different points along the top edge of board and start falling downwards from a random point of the top board edge. This will make the game more challenging for the players and more fun.
 
 ### 2. Data Structures and tehc:
    * The game uses structs, classes, simple arrays and dynamic arrays to store.
