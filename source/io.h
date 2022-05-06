@@ -8,6 +8,6 @@ void GrowthList(Shape * &ls,int &size,int n);
 int GetShape(Shape *&ls);
 int ReadGameFromFile(Games &game, std::string fname); //return 1 if error occurs else 0
 int WriteGameToFile(Games &game, std::string fname); //return 1 if error occurs else 0
-void MoveInTake(int &flag,Shape &shape, Games &game, int &userend);
-void BoardPrinter(int &flag,Shape & shape,Games &game, int &userend,int &contin,Shape * &ls, int & len);
+void MoveInTake(Shape &shape, Games &game, int &userend);
+void BoardPrinter(Shape & shape,Games &game, int &userend,int &contin,Shape * &ls, int & len);
 #endif 

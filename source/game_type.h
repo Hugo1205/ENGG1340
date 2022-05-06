@@ -7,7 +7,7 @@
 #include <cstring>
 #include <unistd.h>
 #include <termios.h>
-const int Maxheight = 17;  //stores height of game board
+const int MaxHeight = 17;  //stores height of game board
 const int MaxWidth = 18;  //stores width of game board
 const int shapesize = 3;  //stores size of shapes in game board
 

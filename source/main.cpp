@@ -3,13 +3,13 @@
 #include <time.h> //for time(NULL)
 using namespace std;
 
-void Menu ();
+int Menu ();
 void CheckOption (string & option);
 void readRules ();
 void newGame ();
 void loadGame ();
 int main () {
-  Menu ();
+  while(Menu());
   return 0;
 }
 void trim(string & s){
@@ -24,7 +24,7 @@ void trim(string & s){
 //Function: prints main menu and all the functions.
 //Input: Integer input determining the option the user chooses
 //Output: calls the CheckOption function to check option user selected.
-void Menu () {
+int Menu () {
   string option;
   cout<<"Welcome to Tetris!"<<endl;
   cout<<"Select Option: "<<endl;
@@ -39,15 +39,14 @@ void Menu () {
     if (option == "1" || option == "2" || option == "3"){
       cout<<endl;
       CheckOption (option);  //function to check option selected
-      cout<<endl;
+      return 1;
     }
-    cout<<"Enter Option Number: ";
+    cout<<"Invaild input! Try again: ";
     cin>>option;
     trim(option);
   }
-  if (option == "4") {
-    cout<<"Game Exited."<<endl;
-  }
+  cout<<"Game Exited."<<endl;
+  return 0;
 }
 
 //checks the option the user selected.
@@ -124,55 +123,3 @@ void loadGame () {
   }
 }
 
-
-/*
-void loadGame () {
-  Games game;
-  string fname;
-  cout << "Input load file name:";
-  cin >> fname;
-  ifstream fin;
-  if(fname.find(".txt")==-1)//if the user do no add .txt we add it for them
-    fname += ".txt";
-  fin.open(fname.c_str());
-  while (fin.fail()) {
-      cout<<"Enter an existing file name: ";
-      cin>>fname;
-      if(fname.find(".txt")==-1)//if the user do no add .txt we add it for them
-        fname += ".txt";
-      fin.open(fname.c_str());
-  }
-  //cout<<"outside while"<<fname<<endl;
-  fin.close();
-  //cout<<"after close"<<fname<<endl;
-  if(fname.find(".txt")==-1)//if the user do no add .txt we add it for them
-    fname += ".txt";
-  ReadGameFromFile(game,fname);
-  if(GameMain(game)){
-    cout << "Input save file name:";
-    cin >> fname;
-    if(fname.find(".txt")==-1)//if the user do no add .txt we add it for them
-      fname += ".txt";
-    WriteGameToFile(game,fname);
-  }
-}*/
-
-//Function: Reads the board from the last game and outputs
-//          the result.
-/*void loadGame () {
-  games game;
-  string fname;
-  cout << "Input load file name:";
-  cin >> fname;
-  if(fname.find(".txt")==-1)//if the user do no add .txt we add it for them
-    fname += ".txt";
-  ReadGameFromFile(game,fname);
-  if(game_main(game)){
-    cout << "Input save file name:";
-    cin >> fname;
-    if(fname.find(".txt")==-1)//if the user do no add .txt we add it for them
-      fname += ".txt";
-    WriteGameToFile(game,fname);
-  }
-}
-*/

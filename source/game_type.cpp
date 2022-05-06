@@ -1,7 +1,7 @@
 #include "io.h"
 Games::Games(){
-    this->board = new char * [Maxheight]; //create a array of pointer
-    for(int i=0;i<Maxheight;i++){
+    this->board = new char * [MaxHeight]; //create a array of pointer
+    for(int i=0;i<MaxHeight;i++){
         this->board[i] = new char [MaxWidth]; //for each pointer create an array it points to
         for(int j=0;j<MaxWidth;j++){
             this->board[i][j] = '0';
@@ -10,7 +10,7 @@ Games::Games(){
     this->score = 0;
 }
 Games::~Games(){
-    for(int i=0;i<Maxheight;i++){
+    for(int i=0;i<MaxHeight;i++){
         delete [] this->board[i]; //delete the array the pointer pointing to
     }
     delete [] this->board; //delete the array of pointer
@@ -118,9 +118,9 @@ Shape::~Shape() {
 //          this function looks for that line and removes that line from main board and prints remaining lines
 //          by shifting lines one line down.
 void RemoveMatches (Games &game) {
-    char tempo[Maxheight][MaxWidth];
-    int xIdx = Maxheight-1;
-    for (int i = Maxheight - 1; i >= 0; --i) {
+    char tempo[MaxHeight][MaxWidth];
+    int xIdx = MaxHeight-1;
+    for (int i = MaxHeight - 1; i >= 0; --i) {
         int counter = 0;
         for (int j = 0; j < MaxWidth; ++j) {
             if (game.board[i][j] == 'x') {
@@ -140,7 +140,7 @@ void RemoveMatches (Games &game) {
         }
         xIdx -=1;
     }
-    for (int i = 0; i < Maxheight; ++i) {
+    for (int i = 0; i < MaxHeight; ++i) {
         for (int j = 0; j < MaxWidth; ++j) {
             game.board[i][j] = tempo[i][j];
         }
@@ -152,10 +152,10 @@ void RemoveMatches (Games &game) {
 //Input: game and shape arrays
 //Output: finds where the shape collides/contacts
 bool Contact(Games &game, Shape &shape){
-    if(shape.y+2 == Maxheight-1)
+    if(shape.y+2 == MaxHeight-1)
         return true;
     for(int i=0;i<3;i++){
-        if(shape.y+i+1>=0 && shape.y+i+1<Maxheight){
+        if(shape.y+i+1>=0 && shape.y+i+1<MaxHeight){
             for(int j=0;j<3;j++){
                 if (shape.board[i][j] !='0' && game.board[shape.y+i+1][shape.x+j]!= '0')
                     return true;
@@ -170,7 +170,7 @@ bool Contact(Games &game, Shape &shape){
 //Output: stores the shape in exact coordinates of the game board as shown to user on screen
 void ShapeToBoard(Games &game, Shape &shape) {   //to be used to add the shape into the main board
   int xIdx = 0, yIdx = 0;
-  for (int s1 = 0; s1 < Maxheight;++s1) {
+  for (int s1 = 0; s1 < MaxHeight;++s1) {
     for (int s2 = 0; s2 < MaxWidth; ++s2) {
       if ((s1 == shape.y && s2 == shape.x) || (s1 == shape.y && s2 == shape.x+1) || (s1 == shape.y && s2 == shape.x+2) || (s1 == shape.y+1 && s2 == shape.x) || (s1 == shape.y+1 && s2 == shape.x+1) || (s1 == shape.y+1 && s2 == shape.x+2) || (s1 == shape.y+2 && s2 == shape.x) || (s1 == shape.y+2 && s2 == shape.x+1) || (s1 == shape.y+2 && s2 == shape.x+2)) {
         if(shape.board[yIdx][xIdx] != '0' && game.board[s1][s2]=='0'){
@@ -200,16 +200,14 @@ int GameMain(Games &game){
     srand(time(NULL));   //use of random function using time parameter
     kb.off();
     len = GetShape(ls);
-    int flag(1),userend(1),contin(1);
-    while (flag){
-        Shape temp;
-        temp = ls[rand()%len];
-        thread th1(MoveInTake,ref(flag),ref(temp),ref(game),ref(userend));  //thread to handle the moves given by key movements of a,s,d,w,e
-        thread th2(BoardPrinter,ref(flag),ref(temp),ref(game),ref(userend),ref(contin),ref(ls),ref(len)); //thread to print the board and erase previous boards continuously
-        th1.join();
-        th2.join();
-
-    }
+    int userend(1),contin(1);
+    Shape temp;
+    temp = ls[rand()%len];
+    temp.x = rand() % (MaxWidth-2);
+    thread th1(MoveInTake,ref(temp),ref(game),ref(userend));  //thread to handle the moves given by key movements of a,s,d,w,e
+    thread th2(BoardPrinter,ref(temp),ref(game),ref(userend),ref(contin),ref(ls),ref(len)); //thread to print the board and erase previous boards continuously
+    th1.join();
+    th2.join();
     delete [] ls;
     kb.on();
     if (contin) //if it is stop by the user
