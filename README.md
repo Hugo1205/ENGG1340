@@ -25,7 +25,7 @@ The rand() and srand() functions are used to pick up the shape and orientation f
 And the game continues on. The speed for drop of tetris blocks is kept constant for ease of player.
 
 ## Key Features and Options:
-```
+
 * Game Menu as an interface to lead to game options
 * Option 1: Start New Game: Allows user to start new game with a fresh board.
 * Option 2: Load Exisitng Game. Allows user to enter name of a saved game file, and continue left-off game.
@@ -33,7 +33,7 @@ And the game continues on. The speed for drop of tetris blocks is kept constant 
 * Option 4: Exit Game and end program.
 
 * The Game allows user to save the game data at any point in time, simply by clicking the 'e/E' key on their keyboard. They are then prompted to save the game using any file name they want and can load this game by entering this file name in Load Exisitng Game option later.
-```
+
 
 ## Compilation and execution instructions:
 To compile the program and play the game, please launch the linux terminal and enter the follow codes:
