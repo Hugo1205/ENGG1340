@@ -36,6 +36,7 @@ And the game continues on. The speed for drop of tetris blocks is kept constant 
 
 ### Sample Input/Output:
 * Whenever the user saves a game file, the game file gets stored in a separate directory named 'saves'. We have attached a sample save file that would have been saved if the user played a game, and saved the gamefile with name 'temp'/'temp.txt'. Our program manually adds the .txt extension if it is not added by the user.
+* Press 'e'/'E' to pause and save game at any point of playing the game.
 
 ## Compilation and execution instructions:
 To compile the program and play the game, please launch the linux terminal and enter the follow codes:
