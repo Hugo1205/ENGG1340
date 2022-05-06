@@ -35,6 +35,7 @@ And the game continues on. The speed for drop of tetris blocks is kept constant 
 * The Game allows user to save the game data at any point in time, simply by clicking the 'e/E' key on their keyboard. They are then prompted to save the game using any file name they want and can load this game by entering this file name in Load Exisitng Game option later.
 
 ### Sample Input/Output:
+* The input for the game is the shapels.txt and gameRules.txt files stored in the directory named 'dependence'.
 * Whenever the user saves a game file, the game file gets stored in a separate directory named 'saves'. We have attached a sample save file that would have been saved if the user played a game, and saved the gamefile with name 'temp'/'temp.txt'. Our program manually adds the .txt extension if it is not added by the user.
 * Press 'e'/'E' to pause and save game at any point of playing the game.
 
