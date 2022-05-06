@@ -84,14 +84,14 @@ If the player ends up having a single column of x's(tetris blocks) spanning from
 ### 1. Generation of random game sets or events: 
    * The tetris block is randomly generated from a pre-made set which will contain all the shapes which can be generated to be used by the player during
 a single game of tetris. Each time, a shape will be picked out of the set randomly, along with a random orientation, and the player has to fit the 
-block into the rectangular n x m board.
+block into the rectangular n x m board. srand and rand functions are used here to achieve random shapes.
 
 ### 2. Data Structures and tehc:
    * The game uses structs, classes, simple arrays and dynamic arrays to store.
    * Separate classes are made for storing the shapes and to rotate them, to store the game board and a separate class called Keyboard is used to store the keyboard keys to be used during the program. It allows the keyboard to be turned on and off when needed.
    * Score, board,shapes are stored in data structures during game-time also.
    * The game uses multi-threading to take continuous key inputs and print the dropping of the shapes as well as the board simultaneously.
-   * 
+    
 ### 3. Dynamic Memory Management:
    * Memory is allocated to storing the game data and for storing the high score for the game. We will also be allocating memory to allow the player to save
 load game and load it whenever they want to play the game. To save memory, we will overwrite existing memory to save new data. Furthermore, we will also only 
