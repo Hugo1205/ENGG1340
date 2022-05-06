@@ -40,7 +40,7 @@ And the game continues on. The speed for drop of tetris blocks is kept constant 
 * Press 'e'/'E' to pause and save game at any point of playing the game.
 
 ## Compilation and execution instructions:
-To compile the program and play the game, please launch the linux terminal and enter the follow codes:
+To compile the program and play the game, please launch the linux terminal, go to this game's directory and enter the following codes:
 ```
 make game
 ./game
