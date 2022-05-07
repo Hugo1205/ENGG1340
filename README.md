@@ -123,3 +123,8 @@ to help save memory and manage the data better.
   * unistd.h and termios.h used to disable the echo of keyboard input and the end the press enter during input.
   * unistd.h is also used to access the rand() and srand() functions.
 
+### Problem Statement and learning scope:
+Tetris requires the program to be made such that, each of the user's input of the moving keys gives an immediate response without user having to constantly press Enter. Furthermore, it involves implementation of moving shapes and objects on the terminal. The main object of taking up this game idea was mainly for us to learn how to make shapes and objects fall or move on the terminal and control their movements elegantly. 
+We learnt how to coordinate resources between the two threads. So that they will not read/write to the same variable and cause memory errors. And we learnt how to implement a good class, so that in further programming we no longer need to care what is inside the class. We can just call the functions.
+We learnt about multi-threading and sleep functions and erasing information from terminal and immediately printing new information to view as if the shapes in the terminal are moving.
+
